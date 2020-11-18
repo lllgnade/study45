@@ -14,14 +14,12 @@
 		main.jsp, loginAction.jsp 필요
 		main.jsp는 게시판이 모여있는 화면을 보여주는 코드
 		login_process.jsp는 입력한 아이디와 비밀번호를 기존의 데이터와 비교해서 일치하는지 판별하는 코드
-		------
-		user/sign_up.jsp는 임시 구현
 	*/
 %>
 	<%-- 네비게이션  --%>
 	<nav class="navbar navbar-default">
  		<div class="navbar-header">   			
-    		<a class="navbar-brand" href="main.jsp">Study for 4.5</a>
+    		<a class="navbar-brand">Study for 4.5</a>
   		</div>
 	</nav>
 	<%-- 로그인 폼 --%>
@@ -48,7 +46,7 @@
 		<div class="join"></div>
 		<div class="join">
 			<div class="jumbotron" style="padding-top: 10px;">
-				<a href="user/sign_up.jsp"><input type="submit" class="btn btn-privary form-control" value="회원가입"></a>
+				<a href="validation05.jsp"><input type="submit" class="btn btn-privary form-control" value="회원가입"></a>
 			</div>
 		</div>
 		<div class="join"></div>
