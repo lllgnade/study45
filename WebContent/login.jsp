@@ -14,6 +14,8 @@
 		main.jsp, loginAction.jsp 필요
 		main.jsp는 게시판이 모여있는 화면을 보여주는 코드
 		login_process.jsp는 입력한 아이디와 비밀번호를 기존의 데이터와 비교해서 일치하는지 판별하는 코드
+		main.jsp에서 이어지는 게시판 소스들 필요
+		마이페이지 및 스크랩 페이지 소스 필요
 	*/
 %>
 	<%-- 네비게이션  --%>
@@ -46,7 +48,7 @@
 		<div class="join"></div>
 		<div class="join">
 			<div class="jumbotron" style="padding-top: 10px;">
-				<a href="validation05.jsp"><input type="submit" class="btn btn-privary form-control" value="회원가입"></a>
+				<a href="user/sign_up.jsp"><input type="submit" class="btn btn-privary form-control" value="회원가입"></a>
 			</div>
 		</div>
 		<div class="join"></div>
