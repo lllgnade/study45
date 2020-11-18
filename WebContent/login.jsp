@@ -21,7 +21,7 @@
 	<%-- 네비게이션  --%>
 	<nav class="navbar navbar-default">
  		<div class="navbar-header">   			
-    		<a class="navbar-brand">Study for 4.5</a>
+    		<a class="navbar-brand" href="main.jsp">Study for 4.5</a>
   		</div>
 	</nav>
 	<%-- 로그인 폼 --%>
