@@ -47,7 +47,7 @@
 		<div class="join"></div>
 		<div class="join">
 			<div class="jumbotron" style="padding-top: 10px;">
-				<a href="user/join.jsp"><input type="submit" class="btn btn-privary form-control" value="회원가입"></a>
+				<a href="join.jsp"><input type="submit" class="btn btn-privary form-control" value="회원가입"></a>
 			</div>
 		</div>
 		<div class="join"></div>

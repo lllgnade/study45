@@ -20,6 +20,17 @@
 </head>
 <body>
 	<% 
+	
+	if (userInfo.getUserID()==null || userInfo.getUserID().isEmpty()) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('아이디를 입력해주세요.')");
+		script.println("history.back()");
+		script.println("</script>");
+		return;
+	}
+	
+	
 	UserDAO userDAO = new UserDAO();
 	String answer = null;
 	try {
