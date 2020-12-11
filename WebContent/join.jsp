@@ -11,7 +11,7 @@
 <body>
 
 	<%-- 네비게이션  --%>
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-default" style="background-color: #CEF6F5">
  		<div class="navbar-header">   			
     		<a class="navbar-brand" href="main.jsp">Study for 4.5</a>
   		</div>
