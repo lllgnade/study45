@@ -62,8 +62,9 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="myPage.jsp" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">마이페이지<span class="caret"></span></a>
+					aria-expanded="false"><%=userID%> <span class="caret"></span></a>
 					<ul class="dropdown-menu">
+						<li><a href="myPage.jsp">마이페이지</a></li>
 						<li><a href="user/logout_process.jsp">로그아웃</a></li>
 					</ul>
 				</li>

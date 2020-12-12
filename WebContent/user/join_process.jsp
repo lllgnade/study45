@@ -69,6 +69,7 @@
 			try {
 				answer = userDAO.addUser(userInfo);
 			} catch (Exception e) {
+				e.printStackTrace();
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
 				script.println("alert('회원가입 오류가 발생했습니다.')");

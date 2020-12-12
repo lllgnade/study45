@@ -56,48 +56,25 @@
 		<%-- 우측 상단 메뉴 --%>
 		<div class="collapse navbar-collapse"
 			id="#bs-example-navbar-collapse-1">
-			<%
-				// 로그인 안된경우
-				if (userID == null) {
-			%>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">접속하기<span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="../login.jsp">로그인</a></li>
-						<li><a href="../user/sign_up.jsp">회원가입</a></li>
-					</ul>
-				</li>
-			</ul>
-			<%
-				// 로그인 상태인 경우
-				} else {
-			%>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="../myPage.jsp" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false"><%=userID%> <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="../myPage.jsp">마이페이지</a></li>
-						<li><a href="../user/logout_process.jsp">로그아웃</a></li>
+						<li><a href="/study45/user/logout_process.jsp">로그아웃</a></li>
 					</ul>
 				</li>
 			</ul>
-			<%
-				}
-			%>
 		</div>
 	</nav>
 	<div class="container">
-	
-	<table class="table table-hover">
+	<div class="row">
+	<form method="post" action="write_process.jsp?location=free">
+	<table class="table table-striped" style="text-align : center; border:1px solid #dddddd">
 		<thead>
 		<tr>
-			<th scope="col" class="text-center" style="background-color: #eeeeee">제목</th>
-			<th scope="col" class="text-center" style="background-color: #eeeeee">글쓴이</th>
-			<th scope="col" class="text-center" style="background-color: #eeeeee">작성일</th>
-			<th scope="col" class="text-center" style="background-color: #eeeeee">조회수</th>
+			<th colspan="2" scope="col" class="text-center" style="background-color: #eeeeee">글쓰기</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -106,15 +83,16 @@
 			// 밑의 글은 예시
 		%>
 		<tr>
-			<td scope="col" class="text-center">제 공부 팁 공유해드립니다.</td>
-			<td scope="col" class="text-center">홍길동</td>
-			<td scope="col" class="text-center">2020-11-20</td>
-			<td scope="col" class="text-center">3</td>
+			<td><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="100"></td>
+		</tr>
+		<tr>	
+			<td><textarea class="form-control" placeholder="글 내용" name="contents" maxlength="4096" style="height:350px;resize: vertical;"></textarea></td>
 		</tr>
 	</tbody>
 	</table>
-	
-	<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
+	<input type="submit" class="btn btn-primary pull-right" value="글쓰기">
+	</form>
+	</div>
 	</div>
 	
 	

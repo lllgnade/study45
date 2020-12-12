@@ -7,9 +7,13 @@ public class BoardVO {
 	private String userID; //작성자 ID. FOREIGN KEY(USER). not null
 	private String title; //게시글 제목. not null
 	private String contents; //게시글 내용
-	private String regDate; // DEFAULT CURRENT_TIMESTAMP
-	private int readCount; //조회수
-	private int boardAvailable; //게시물 삭제 여부. DB에는 저장.
+	private String regDate; // 작성일자. DEFAULT CURRENT_TIMESTAMP
+	private int readCount=0; //조회수. not null DEFAULT 0
+	private int boardAvailable=1; //게시물 사용가능여부. not null DEFAULT 1. 삭제시 0, DB에는 저장.
+	
+	//유저 정보
+	private String name; 
+	
 	//임시
 	private int pageStart =-1;
 	private int pageSize =-1;
@@ -118,6 +122,14 @@ public class BoardVO {
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 

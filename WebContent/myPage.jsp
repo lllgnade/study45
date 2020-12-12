@@ -28,7 +28,7 @@
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="main.jsp">Study for 4.5</a>
-			<a class="navbar-brand" href="#" style="font-size:1.0em">자유게시판</a>
+			<a class="navbar-brand" href="board/board_free.jsp" style="font-size:1.0em">자유게시판</a>
 			<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
 			<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
 		</div>
@@ -56,9 +56,9 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">회원관리<span class="caret"></span></a>
+					aria-expanded="false"><%=userID%> <span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutAction.jsp">로그아웃</a></li>
+						<li><a href="user/logout_process.jsp">로그아웃</a></li>
 					</ul>
 				</li>
 			</ul>

@@ -53,10 +53,8 @@ public class UserDAO {
 	public String addUser(UserVO userInfo){
 
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
-		System.out.println("insert 쿼리 실행 전");
 		int result = sqlSession.insert("mapper.user.insertUser", userInfo);
 		sqlSession.commit();
-		System.out.println("insert 쿼리 실행");
         sqlSession.close();
 		
 		if (result == 1) {
