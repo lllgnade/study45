@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import = "java.io.PrintWriter" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -13,8 +14,13 @@
 <body>
 	<%
 		/*
+		
+			** index는 main.jsp로 넘어가도록 수정
+		
+			
 			자세히 알아보기 버튼은 일단 임시로 만든 상태이며, 필요가 없다면 삭제
 			밑에 td /td 반복한 부분은 테이블 왼쪽에 여백을 만들려고 넣은 것
+
 		*/
 		String userID = null;
 		if(session.getAttribute("userID") != null){
@@ -58,7 +64,7 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">마이페이지<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutAction.jsp">로그아웃</a></li>
+						<li><a href="user/logout_process.jsp">로그아웃</a></li>
 					</ul>
 				</li>
 			</ul>

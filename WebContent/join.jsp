@@ -16,12 +16,12 @@
     		<a class="navbar-brand" href="main.jsp">Study for 4.5</a>
   		</div>
 	</nav>
-	<%-- 로그인 폼 --%>
+	<%-- 회원가입 폼 --%>
 	<div class="container">
  		<div class="login"></div>
  		<div class="login">
    			<div class="jumbotron" style="padding-top: 20px;">
-   				<form action="join_process.jsp" method="post">
+   				<form action="user/join_process.jsp" method="post">
     				<h3 style="text-align: center;">회원가입</h3>
     				<div class="form-group">
      					<input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20">
