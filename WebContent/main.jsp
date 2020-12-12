@@ -108,7 +108,7 @@
 					<h4>자유게시판</h4>
 					<h5>자유롭게 다른 유저들과 대화하는 공간입니다.</h5>
 					<br>
-					<a class="btn btn-primary btn-pull" href="#" role="button">바로가기</a>
+					<a class="btn btn-primary btn-pull" href="board/board_free.jsp" role="button">바로가기</a>
 				</td>
 				<td>
 					<h4>팁 공유 게시판</h4>

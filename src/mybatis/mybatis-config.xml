@@ -13,8 +13,8 @@
             <transactionManager type="JDBC"/>
             <!-- POOLED,UNPOOLED,JNDI(Java Naming and Directory Interface) -->
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://13.209.3.5:3306/study45?useSSL=false"/>
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://mydatabase.cmitmx5fhelx.ap-northeast-2.rds.amazonaws.com:3306/study45?useSSL=false"/>
                 <property name="username" value="redgrave"/>
                 <property name="password" value="33334444"/>
             </dataSource>

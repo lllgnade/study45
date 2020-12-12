@@ -18,29 +18,24 @@ public class UserVO {
 	
 	//생성자
 	public UserVO() {
-		System.out.println("UserVO 생성자 호출");
 	}
 	
 	public UserVO(String userID) {
-		System.out.println("UserVO 생성자 호출");
 		this.userID = userID;
 	}
 
 	public UserVO(String userID, String pwd) {
-		System.out.println("UserVO 생성자 호출");
 		this.userID = userID;
 		this.pwd = pwd;
 	}
 	
 	public UserVO(String userID, String name, String email) {
-		System.out.println("UserVO 생성자 호출");
 		this.userID = userID;
 		this.name = name;
 		this.email = email;
 	}
 
 	public UserVO(String userID, String pwd, String name, String email) {
-		System.out.println("UserVO 생성자 호출");
 		this.userID = userID;
 		this.pwd = pwd;
 		this.name = name;

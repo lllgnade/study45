@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +25,20 @@
 		if(session.getAttribute("userID") != null){
 			userID=(String) session.getAttribute("userID");
 		}
+		
+		//로그인하지 않았을 경우 로그인 페이지로 이동
+		if (userID == null) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("location.href = '/study45/login.jsp?location=board_free'");
+			script.println("</script>");
+			return;
+		}
+		
 	%>
+
+	
+	
 	<%-- 네비게이션  --%>
 	<nav class="navbar navbar-default" style="background-color: #CEF6F5">
 		<div class="navbar-header">
@@ -35,7 +49,7 @@
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="../main.jsp">Study for 4.5</a>
-			<a class="navbar-brand" href="#" style="font-size:1.0em">자유게시판</a>
+			<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
 			<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
 			<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
 		</div>
@@ -65,7 +79,7 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">마이페이지<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="logoutAction.jsp">로그아웃</a></li>
+						<li><a href="/study45/user/logout_process.jsp">로그아웃</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -74,6 +88,8 @@
 			%>
 		</div>
 	</nav>
+	<div class="container">
+	
 	<table class="table table-hover">
 		<thead>
 		<tr>
@@ -96,6 +112,13 @@
 		</tr>
 	</tbody>
 	</table>
+	
+	<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
+	</div>
+	
+	
+	
+	
 	<!-- 애니매이션 담당 JQUERY -->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<!-- 부트스트랩 JS  -->

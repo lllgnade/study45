@@ -34,6 +34,7 @@
 		}
 	
 		
+		
 		if (userInfo.getUserID() == null || userInfo.getUserID().isEmpty()) {
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
@@ -54,12 +55,28 @@
 		if ("ok".equals(answer)) { //로그인 성공시
 			session.setAttribute("userID", userInfo.getUserID()); //세션에 로그인 정보 (새로) 바인딩
 			PrintWriter script = response.getWriter();
+			
+
+			String location = request.getParameter("location"); //로그인 요청 받은 위치
+
 			script.println("<script>");
-			script.println("location.href = '/study45/main.jsp'");
+			
+			if(location!=null && !location.equals("main")){
+				switch(location){
+				case "board_free":
+					script.println("location.href = '/study45/board/board_free.jsp'");
+					break;
+				default :
+					script.println("location.href = '/study45/main.jsp'");
+				}
+			}
+			else{
+				script.println("location.href = '/study45/main.jsp'");
+			}
+
 			script.println("</script>");
+			
 		} else { //실패시
-			session.invalidate(); //세션 날림
-	
 			if ("id".equals(answer)) {
 				PrintWriter script = response.getWriter();
 				script.println("<script>");
