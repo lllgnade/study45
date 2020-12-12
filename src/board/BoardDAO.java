@@ -9,30 +9,40 @@ import mybatis.MyBatisConnectionFactory;
 
 public class BoardDAO {
 
-	private SqlSession sqlSession;
 	
 	public List<BoardVO> boardlist() throws DataAccessException {
 		//빈 필터를 보냄으로써 모든 게시판 조회
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
-		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", new BoardVO());
+		BoardVO boardFilter = new BoardVO();
+		boardFilter.setReadCount(-1); //조회수 필터 초기화
+		boardFilter.setBoardAvailable(1); //유효한 글만 조회
+		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
 		sqlSession.close();		
 		return boardlist;
 	}
 	
-	public List<BoardVO> selectAllBoard(BoardVO boardFilter) throws DataAccessException {
+	public List<BoardVO> showBoard(BoardVO boardFilter, int pageNum, int pageSize) throws DataAccessException {
 		//페이지 필터를 적용한 모든 게시글 조회
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
+		
+		boardFilter.setReadCount(-1); //조회수 필터 초기화
+		boardFilter.setBoardAvailable(1); //유효한 글만 조회
+		boardFilter.setPageStart((pageNum-1) * pageSize);
+		boardFilter.setPageSize(pageSize);
+		
 		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
 		sqlSession.close();
 		return boardlist;
 	}
 
 	
-	public BoardVO readBoard(String boardNo) throws DataAccessException {
+	public BoardVO readOneBoard(String boardNo) throws DataAccessException {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
 		//고유 번호 필터 생성
 		BoardVO boardFilter = new BoardVO();
 		boardFilter.setBoardNo(Integer.parseInt(boardNo));
+		boardFilter.setReadCount(-1); //조회수 필터 초기화
+		boardFilter.setBoardAvailable(1); //유효한 글만 조회
 		//필터로 서치
 		BoardVO board = sqlSession.selectOne("mapper.board.searchBoard",boardFilter);
 		
@@ -55,6 +65,8 @@ public class BoardDAO {
 		//고유 번호 필터 생성
 		BoardVO boardFilter = new BoardVO();
 		boardFilter.setBoardNo(Integer.parseInt(boardNo));
+		boardFilter.setReadCount(-1); //조회수 필터 초기화
+		boardFilter.setBoardAvailable(1); //유효한 글만 조회
 		//필터로 서치
 		BoardVO board = sqlSession.selectOne("mapper.board.searchBoard",boardFilter);
 		sqlSession.close();
@@ -64,6 +76,8 @@ public class BoardDAO {
 	public List<BoardVO> searchBoard(BoardVO boardFilter) throws DataAccessException {
 		//필터로 서치
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
+		boardFilter.setReadCount(-1); //조회수 필터 초기화
+		boardFilter.setBoardAvailable(1); //유효한 글만 조회
 		List<BoardVO> boardList = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
 		sqlSession.close();
 		return boardList;
@@ -92,6 +106,8 @@ public class BoardDAO {
 
 	public String updateBoard(BoardVO boardInfo) throws DataAccessException {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
+		boardInfo.setReadCount(-1); //조회수 반영x
+		boardInfo.setBoardAvailable(-1); //유효성 반영x
 		int result = sqlSession.update("mapper.board.updateBoard",boardInfo);
 		sqlSession.commit();
         sqlSession.close();
@@ -101,6 +117,23 @@ public class BoardDAO {
 		else
 			return "fail"; //update 실패
 	}
+	
+	public String discardBoard(BoardVO boardInfo) throws DataAccessException {
+		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
+		boardInfo.setReadCount(-1); //조회수 반영x
+		boardInfo.setBoardAvailable(0); //글을 유효하지 않게 함
+		int result = sqlSession.update("mapper.board.updateBoard",boardInfo);
+		sqlSession.commit();
+        sqlSession.close();
+		
+		if (result==1)
+			return "ok"; //update 성공
+		else
+			return "fail"; //update 실패
+	}
+
+	
+	
 
 	public String deleteBoard(String boardNo) throws DataAccessException {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
