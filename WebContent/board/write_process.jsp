@@ -36,7 +36,7 @@
 		script.println("alert('로그인이 필요합니다.')");
 		switch(location){
 		case "free":
-			script.println("location.href = '../login.jsp?location=board_free'"); //등록 게시물로 이동하게 바꾸기
+			script.println("location.href = '../login.jsp?location=board_free'");
 			break;
 		default:
 			script.println("location.href = '../login.jsp'");
@@ -49,7 +49,7 @@
 		if(boardInfo.getTitle() == null || boardInfo.getContents() == null){
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
-			script.println("alert('입력이 안 된 사항이 있습니다.')");
+			script.println("alert('입력이 안 된 항목이 있습니다.')");
 			script.println("history.back()");
 			script.println("</script>");
 		} else{
@@ -76,7 +76,7 @@
 				script.println("<script>");
 				switch(location){
 				case "free":
-					script.println("location.href = 'board_free.jsp'"); //등록 게시물로 이동하게 바꾸기
+					script.println("location.href = 'board_free.jsp'");  //등록 게시물로 이동하게 바꾸기. view.jsp?boardNo= <inserted_boardNo>
 					break;
 				default:
 					script.println("location.href = '../main.jsp'");

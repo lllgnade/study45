@@ -31,7 +31,7 @@
  		<div class="login">
    			<div class="jumbotron" style="padding-top: 20px;">
    				<form action="user/login_process.jsp?location=<%=location%>" method="post">
-    				<h3 style="text-align: center;"> 게시판에 들어가려면 로그인이 필요합니다. </h3>
+    				<h3 style="text-align: center;"> 해당 기능은 로그인이 필요합니다. </h3>
     				<div class="form-group">
      					<input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20">
     				</div>      
