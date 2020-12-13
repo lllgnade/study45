@@ -21,7 +21,7 @@ public class BoardDAO {
 		return boardlist;
 	}
 	
-	public List<BoardVO> showBoard(BoardVO boardFilter, int pageNum, int pageSize) throws DataAccessException {
+	public List<BoardVO> searchBoard(BoardVO boardFilter, int pageNum, int pageSize) throws DataAccessException {
 		//페이지 필터를 적용한 모든 게시글 조회
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
 		
@@ -31,6 +31,21 @@ public class BoardDAO {
 		boardFilter.setPageSize(pageSize);
 		
 		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
+		sqlSession.close();
+		return boardlist;
+	}
+	
+	
+	public List<BoardVO> showBoard(BoardVO boardFilter, int pageNum, int pageSize) throws DataAccessException {
+		//페이지 필터를 적용한 모든 게시글 조회
+		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
+		
+		boardFilter.setReadCount(-1); //조회수 필터 초기화
+		boardFilter.setBoardAvailable(1); //유효한 글만 조회
+		boardFilter.setPageStart((pageNum-1) * pageSize);
+		boardFilter.setPageSize(pageSize);
+		
+		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.showBoard", boardFilter);
 		sqlSession.close();
 		return boardlist;
 	}

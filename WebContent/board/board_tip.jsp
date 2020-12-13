@@ -114,7 +114,7 @@
 			BoardDAO boardDAO= new BoardDAO();
 			BoardVO boardFilter= new BoardVO();
 			boardFilter.setBoardType("tip");
-			List<BoardVO> boardlist = boardDAO.showBoard(boardFilter,pageNum, 10);
+			List<BoardVO> boardlist = boardDAO.searchBoard(boardFilter,pageNum, 10);
 			for(BoardVO board: boardlist){
 		%>
 		<tr>

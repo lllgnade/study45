@@ -35,10 +35,13 @@
 	
 	<!-- SQL문. 반환 레코드를 cloBoardResult에 저장 -->
 
+		
+		
 	<!-- 조건값에 따라 select하는 쿼리. 받은 VO의 속성에 따라 where 절을 추가함. -->
 	<select id="searchBoard" resultMap="boardResult" parameterType="boardVO">
 	<![CDATA[
-		select U.userID, U.name, B.*
+		select U.userID, U.name, 
+				B.boardNo, B.boardType, B.title,B.contents,B.regDate,B.readCount,B.boardAvailable
 		FROM `user` U, `board` B
 	]]>
 		<where>
@@ -49,7 +52,55 @@
 				and boardType = #{boardType}
 			</if>
 			<if test="userID != '' and userID != null">
-				and userID = #{userID}
+				and U.userID = #{userID}
+			</if>
+			<if test="title != '' and title != null">
+				and title = #{title}
+			</if>
+			<if test="contents != '' and contents != null">
+				and contents = #{contents}
+			</if>
+			<if test="regDate != '' and regDate != null">
+				and regDate = #{regDate}
+			</if>
+			<if test="readCount != null and readCount != -1">
+				and readCount = #{readCount}
+			</if>
+			<if test="boardAvailable != null and boardAvailable != -1">
+				and boardAvailable = #{boardAvailable}
+			</if>
+			and U.userID = B.userID
+		</where>
+		<if test="pageStart != -1 and pageSize != -1">
+			ORDER BY regDate DESC LIMIT #{pageStart}, #{pageSize}
+		</if>
+		<if test="pageStart == -1 and pageSize == -1">
+			ORDER BY regDate ASC
+		</if>
+	</select>	
+		
+		
+		
+	<!-- 조건값에 따라 select하는 쿼리. 받은 VO의 속성에 따라 where 절을 추가함. -->
+	<select id="showBoard" resultMap="boardResult" parameterType="boardVO">
+	<![CDATA[
+		select U.userID, U.name, 
+				B.boardNo, B.boardType, B.title,B.contents,B.regDate,B.readCount,B.boardAvailable,
+		IF(
+              (SELECT COUNT(*) FROM scrap where scraperID = #{myID} AND boardNo = B.boardNo)>0
+              ,"scraped","not_scraped"
+        ) if_scraped       -- 게시물 스크랩 여부
+		FROM `user` U, `board` B
+	]]>
+		<where>
+			<if test="boardNo != '' and boardNo != null">
+				boardNo = #{boardNo}
+			</if>
+			<if test="boardType != '' and boardType != null">
+				and boardType = #{boardType}
+			</if>
+			<if test="userID != '' and userID != null">
+				and U.userID = #{userID}
 			</if>
 			<if test="title != '' and title != null">
 				and title = #{title}
@@ -75,6 +126,9 @@
 			ORDER BY regDate ASC
 		</if>
 	</select>
+	
+	
+	
 	
 	
 	<!-- 조회수 증가 쿼리 -->

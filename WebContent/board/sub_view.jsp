@@ -29,7 +29,19 @@
 			script.println("</script>");
 			return;
 		}
-
+		
+		String location = "";
+		if(request.getParameter("location")!=null)
+			location = request.getParameter("location");
+		if (location.isEmpty()){
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('잘못된 접근입니다.')");
+			script.println("location.href = '../main.jsp'");
+			script.println("</script>");
+			return;
+		}
+		
 	
 		
 		// 로그인을 한 사람이면 userID에 아이디를 저장, 아닐 경우 null값
@@ -87,21 +99,18 @@
 			<a class="navbar-brand" href="../main.jsp">Study for 4.5</a>
 	<%	
 		//활성화된 게시판 색칠. 조건으로 style 다는 법을 몰라서..
-		if(boardType.contains("tip")){
+		if(location.contains("scrap")){
 	%>
 			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
-			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em; background-color: #BEE6E5;">팁 공유 게시판</a>
+			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em;;">팁 공유 게시판</a>
 			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em">질문게시판</a>
-	<%	}else if(boardType.contains("question")){
+			<a class="navbar-brand" href="board_scrap.jsp" style="font-size:1.0em; background-color: #BEE6E5;">내 스크랩</a>
+	<%	}else{
 	%>	
 			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
 			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em">팁 공유 게시판</a>
-			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em; background-color: #BEE6E5;">질문게시판</a>
-			
-	<%	} else{
-	%>		<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
-			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em">팁 공유 게시판</a>
-			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em">질문게시판</a>
+			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em;">질문게시판</a>
+			<a class="navbar-brand" href="board_my.jsp" style="font-size:1.0em; background-color: #BEE6E5;">내 글 보기</a>
 	<%	}
 	%>	
 		</div>
@@ -148,17 +157,12 @@
 		</tr>
 	</tbody>
 	</table>
-
-	<a href="board_<%=boardType%>.jsp?pageNum=<%=pageNum%>" class="btn btn-primary">목록</a>
-
+	<a href="board_<%=location%>.jsp?pageNum=<%=pageNum%>" class="btn btn-primary">목록</a>
 	<% 
 		if(userID!=null && userID.equals(boardInfo.getUserID())){
 	%>
 	<a href="update.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">수정</a>
-	
-
-	<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="delete_process.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">삭제</a>
-	
+	<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="delete_process.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>&location=<%=location%>" class="btn btn-primary">삭제</a>
 	<%
 		}
 	%>

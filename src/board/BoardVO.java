@@ -12,7 +12,8 @@ public class BoardVO {
 	private int boardAvailable=1; //게시물 사용가능여부. not null DEFAULT 1. 삭제시 0, DB에는 저장.
 	
 	//유저 정보
-	private String name; 
+	private String name;
+	private String myID;
 	
 	//임시
 	private int pageStart =-1;
@@ -130,6 +131,14 @@ public class BoardVO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getMyID() {
+		return myID;
+	}
+
+	public void setMyID(String myID) {
+		this.myID = myID;
 	}
 
 

@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter"%>
+<%@ page import="board.BoardVO"%>
+<%@ page import="board.BoardDAO"%>
+<%@ page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +14,39 @@
 <!-- 스타일시트 참조  -->
 <link rel="stylesheet" href="css/bootstrap.css">
 <title>study for 4.5</title>
+<style type="text/css">
+	a, a:hover{
+	color : #000000;
+	text-decoration : none;
+	}
+</style>
 </head>
 <body>
-	<%
+	<%  
+		//아이디 가져오기
 		String userID = null;
 		if(session.getAttribute("userID") != null){
 			userID=(String) session.getAttribute("userID");
+		}else{ //비로그인 시
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('로그인 해야 합니다.')");
+			script.println("location.href = 'login.jsp'");
+			script.println("</script>");
+			return;
 		}
+		
+		BoardDAO boardDAO = new BoardDAO();
+		
+		//내 글 최신순 3개 가져오기
+		BoardVO boardFilter = new BoardVO();
+		boardFilter.setUserID(userID);
+		List<BoardVO> mylist = boardDAO.searchBoard(boardFilter, 1, 3);
+		//내가 스크랩한 글 최신순 3개 가져오기
+		boardFilter = new BoardVO(); 
+		
+		
+		
 	%>
 	<%-- 네비게이션  --%>
 	<nav class="navbar navbar-default" style="background-color: #CEF6F5">
@@ -71,26 +101,30 @@
   		<div class="panel-heading">내 글 보기</div>
   		<div class="panel-body">
     		<table class="table table-hover">
-				<tr>
-					<th scope="col" class="text-left">글 보이는 곳</th>
-				</tr>
-				<tr>
-					<th scope="col" class="text-left">글 보이는 곳</th>
-				</tr>
-				<tr>
-					<th scope="col" class="text-left">글 보이는 곳</th>
-				</tr>
-				<tr>
-					<th scope="col" class="text-right"><a href="#"><h6>모든 글 보기</h6></a></th>
-				</tr>
+    		<colgroup>
+		       <col span="1" style="width: 10%;">
+		       <col span="1" style="width: 90%;">
+		    </colgroup>
+    		
+    	<%		for(BoardVO board: mylist){
+		%>
+		<tr>
+			<th scope="col" class="text-center"><%= board.getBoardType() %></th>
+			<th scope="col" class="text-left"><a href="/study45/board/sub_view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=1&location=my"><%= board.getTitle() %></a></th>
+		</tr>
+		<%
+			}
+		%>
+		
+		<tr>
+			<th scope="col" colspan="2" class="text-right"><a href="/study45/board/board_my.jsp"><h6>모든 글 보기</h6></a></th>
+		</tr>
 			</table>
   		</div>
 	</div>
 
 	<div class="panel panel-default">
-  		<div class="panel-heading">
-    		<h3 class="panel-title">스크랩</h3>
-  		</div>
+  		<div class="panel-heading">스크랩</div>
   		<div class="panel-body">
     		<table class="table table-hover">
 				<tr>
@@ -103,7 +137,7 @@
 					<th scope="col" class="text-left">글 보이는 곳</th>
 				</tr>
 				<tr>
-					<th scope="col" class="text-right"><a href="#"><h6>모든 글 보기</h6></a></th>
+					<th scope="col" class="text-right"><a href="/study45/board/board_scrap.jsp"><h6>모든 글 보기</h6></a></th>
 				</tr>
 			</table>
   		</div>

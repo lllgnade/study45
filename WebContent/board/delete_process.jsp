@@ -39,6 +39,11 @@
 		script.println("</script>");
 		return;
 	}
+	//특정 요청 지점이 있으면 받아오기
+	String location = "";
+	if(request.getParameter("location")!=null)
+		location = request.getParameter("location");
+	
 	//사용자 ID 받아오기
 	String userID = null;
 	if (session.getAttribute("userID") != null) {
@@ -89,11 +94,18 @@
 			return;
 		}
 		if("ok".equals(answer)){ //게시물 삭제 성공시 해당 게시판으로 이동
+			if(!location.isEmpty()){//특정한 요청 지점이 있으면
+			
+			%>
+					<script>
+					location.href = 'board_<%=location%>.jsp'
+					</script>
+			<%}else{ //없으면 일반 게시물 목록으로 이동
 			%>
 					<script>
 					location.href = 'board_<%=boardType%>.jsp'
 					</script>
-			<%
+			<%}
 		}else{
 			PrintWriter script = response.getWriter();
 			script.println("<script>");

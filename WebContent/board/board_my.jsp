@@ -23,10 +23,17 @@
 <body>
 	<%
 		
-		// 로그인을 한 사람이면 userID에 아이디를 저장, 아닐 경우 null값
+		//아이디 가져오기
 		String userID = null;
 		if(session.getAttribute("userID") != null){
 			userID=(String) session.getAttribute("userID");
+		}else{ //비로그인 시
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('로그인 해야 합니다.')");
+			script.println("location.href = 'login.jsp'");
+			script.println("</script>");
+			return;
 		}
 		
 		int pageNum=1;
@@ -48,31 +55,15 @@
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="../main.jsp">Study for 4.5</a>
-			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
+			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
 			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em">팁 공유 게시판</a>
 			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em">질문게시판</a>
+			<a class="navbar-brand" href="board_my.jsp" style="font-size:1.0em; background-color: #BEE6E5; align:right;">내 글 보기</a>
 		</div>
 		<%-- 우측 상단 메뉴 --%>
 		<div class="collapse navbar-collapse"
 			id="#bs-example-navbar-collapse-1">
-			<%
-				// 로그인 안된경우
-				if (userID == null) {
-			%>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">접속하기<span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="../login.jsp?location=board_free">로그인</a></li>
-						<li><a href="../user/sign_up.jsp">회원가입</a></li>
-					</ul>
-				</li>
-			</ul>
-			<%
-				// 로그인 상태인 경우
-				} else {
-			%>
+			
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="../myPage.jsp" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -83,9 +74,6 @@
 					</ul>
 				</li>
 			</ul>
-			<%
-				}
-			%>
 		</div>
 	</nav>
 	<div class="container">
@@ -108,14 +96,16 @@
 	</thead>
 	<tbody>
 		<%
-			BoardDAO boardDAO= new BoardDAO();
-			BoardVO boardFilter= new BoardVO();
-			boardFilter.setBoardType("free");
-			List<BoardVO> boardlist = boardDAO.searchBoard(boardFilter,pageNum, 10);
-			for(BoardVO board: boardlist){
+			BoardDAO boardDAO = new BoardDAO();
+			
+			//내 글 가져오기
+			BoardVO boardFilter = new BoardVO();
+			boardFilter.setUserID(userID);
+			List<BoardVO> mylist = boardDAO.searchBoard(boardFilter, pageNum, 10);
+			for(BoardVO board: mylist){
 		%>
 		<tr>
-			<td scope="col" class="text-center"><a href="view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=<%=pageNum%>"><%= board.getTitle() %></a></td>
+			<td scope="col" class="text-center"><a href="sub_view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=<%=pageNum%>&location=my"><%= board.getTitle() %></a></td>
 			<td scope="col" class="text-center"><%= board.getName() %></td>
 			<td scope="col" class="text-center"><%= board.getRegDate()%></td>
 			<td scope="col" class="text-center"><%= board.getReadCount() %></td>
@@ -128,15 +118,14 @@
 	<% 
 	if(pageNum!=1){ 
 	%>
-		<a href="board_free.jsp?pageNum=<%=pageNum-1 %>" class="btn btn-success btn-arrow-left">이전</a>
+		<a href="board_my.jsp?pageNum=<%=pageNum-1 %>" class="btn btn-success btn-arrow-left">이전</a>
 	<% 
 	} if(boardDAO.showBoard(boardFilter,pageNum+1, 10).size()!=0){
 	%>
-		<a href="board_free.jsp?pageNum=<%=pageNum+1 %>" class="btn btn-success btn-arrow-left">다음</a>
+		<a href="board_my.jsp?pageNum=<%=pageNum+1 %>" class="btn btn-success btn-arrow-left">다음</a>
 	<% 
 	} 
 	%>
-	<a href="write.jsp?boardType=free" class="btn btn-primary pull-right">글쓰기</a>
 	</div>
 	
 	
