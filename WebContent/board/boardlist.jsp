@@ -17,7 +17,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 정보 출력창</title>
+<title>게시물 정보 출력창</title>
 <style>
 .cls1 {
 	font-size: 40px;

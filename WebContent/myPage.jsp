@@ -29,8 +29,8 @@
 			</button>
 			<a class="navbar-brand" href="main.jsp">Study for 4.5</a>
 			<a class="navbar-brand" href="board/board_free.jsp" style="font-size:1.0em">자유게시판</a>
-			<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
-			<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
+			<a class="navbar-brand" href="board/board_tip.jsp" style="font-size:1.0em">팁 공유 게시판</a>
+			<a class="navbar-brand" href="board/board_question.jsp" style="font-size:1.0em">질문게시판</a>
 		</div>
 		<%-- 우측 상단 메뉴 --%>
 		<div class="collapse navbar-collapse"

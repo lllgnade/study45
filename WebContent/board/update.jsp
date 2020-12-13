@@ -83,19 +83,19 @@
 			<%	
 				if(boardType.contains("tip")){
 			%>
-					<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em;">자유게시판</a>
-					<a class="navbar-brand" href="#" style="font-size:1.0em; background-color: #BEE6E5;">팁 공유 게시판</a>
-					<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
+					<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
+					<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em; background-color: #BEE6E5;">팁 공유 게시판</a>
+					<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em">질문게시판</a>
 			<%	}else if(boardType.contains("question")){
 			%>	
-					<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em;">자유게시판</a>
-					<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
-					<a class="navbar-brand" href="#" style="font-size:1.0em; background-color: #BEE6E5;">질문게시판</a>
+					<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
+					<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em">팁 공유 게시판</a>
+					<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em; background-color: #BEE6E5;">질문게시판</a>
 					
 			<%	} else{
-			%>		<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
-					<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
-					<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
+			%>		<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
+					<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em">팁 공유 게시판</a>
+					<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em">질문게시판</a>
 			<%	}
 			%>	
 		</div>

@@ -115,13 +115,13 @@
 					<h4>팁 공유 게시판</h4>
 					<h5>여러분들만 아는 공부 팁들을 공유하는 곳입니다.</h5>
 					<br>
-					<a class="btn btn-primary btn-pull" href="#" role="button">바로가기</a>
+					<a class="btn btn-primary btn-pull" href="board/board_tip.jsp" role="button">바로가기</a>
 				</td>
 				<td>
 					<h4>질문게시판</h4>
 					<h5>모르는게 있다고요?!? 여기다가 질문하는 건 어떤가요?</h5>
 					<br>
-					<a class="btn btn-primary btn-pull" href="#" role="button">바로가기</a>
+					<a class="btn btn-primary btn-pull" href="board/board_question.jsp" role="button">바로가기</a>
 				</td>
 			</tr>
 		</table>

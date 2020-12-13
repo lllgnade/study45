@@ -37,6 +37,7 @@
 		location.href = '../login.jsp?location=board_<%=boardType%>'
 		</script>
 	<%
+		return;
 	}
 	else{
 		

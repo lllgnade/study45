@@ -13,6 +13,17 @@
 </head>
 <body>
 	<%
+	
+		//게시판명 받아오기
+		String boardType = request.getParameter("boardType");
+		if (boardType == null) {
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('잘못된 요청입니다.')");
+			script.println("history.back()");
+			script.println("</script>");
+			return;
+		}
 		
 		// 로그인을 한 사람이면 userID에 아이디를 저장, 아닐 경우 null값
 		String userID = null;
@@ -22,10 +33,12 @@
 		
 		//로그인하지 않았을 경우 로그인 페이지로 이동
 		if (userID == null) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("location.href = '/study45/login.jsp?location=board_free'");
-			script.println("</script>");
+	%>	
+			<script>
+			alert('로그인이 필요합니다.')
+			location.href = '../login.jsp?location=board_<%=boardType%>'
+			</script>
+	<%	
 			return;
 		}
 		
@@ -37,7 +50,6 @@
 			script.println("</script>");
 			return;
 		}
-		String boardType = request.getParameter("boardType");
 		
 	%>
 
@@ -57,19 +69,19 @@
 		//활성화된 게시판 색칠. 조건으로 style 다는 법을 몰라서..
 		if(boardType.contains("tip")){
 	%>
-			<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em;">자유게시판</a>
-			<a class="navbar-brand" href="#" style="font-size:1.0em; background-color: #BEE6E5;">팁 공유 게시판</a>
-			<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
+			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
+			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em; background-color: #BEE6E5;">팁 공유 게시판</a>
+			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em">질문게시판</a>
 	<%	}else if(boardType.contains("question")){
 	%>	
-			<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em;">자유게시판</a>
-			<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
-			<a class="navbar-brand" href="#" style="font-size:1.0em; background-color: #BEE6E5;">질문게시판</a>
+			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
+			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em">팁 공유 게시판</a>
+			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em; background-color: #BEE6E5;">질문게시판</a>
 			
 	<%	} else{
-	%>		<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
-			<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
-			<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
+	%>		<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
+			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em">팁 공유 게시판</a>
+			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em">질문게시판</a>
 	<%	}
 	%>	
 		</div>

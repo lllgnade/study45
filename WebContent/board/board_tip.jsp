@@ -48,8 +48,9 @@
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="../main.jsp">Study for 4.5</a>
-			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
-			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em">팁 공유 게시판</a>
+			<%-- 바꿀 부분  --%>
+			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
+			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em;  background-color: #BEE6E5;">팁 공유 게시판</a>
 			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em">질문게시판</a>
 		</div>
 		<%-- 우측 상단 메뉴 --%>
@@ -64,7 +65,8 @@
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">접속하기<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-						<li><a href="../login.jsp?location=board_free">로그인</a></li>
+					<%-- 바꿀 부분  --%>
+						<li><a href="../login.jsp?location=board_tip">로그인</a></li>
 						<li><a href="../user/sign_up.jsp">회원가입</a></li>
 					</ul>
 				</li>
@@ -107,10 +109,11 @@
 		</tr>
 	</thead>
 	<tbody>
+	<%-- 바꿀 부분  --%>
 		<%
 			BoardDAO boardDAO= new BoardDAO();
 			BoardVO boardFilter= new BoardVO();
-			boardFilter.setBoardType("free");
+			boardFilter.setBoardType("tip");
 			List<BoardVO> boardlist = boardDAO.showBoard(boardFilter,pageNum, 10);
 			for(BoardVO board: boardlist){
 		%>
@@ -128,15 +131,16 @@
 	<% 
 	if(pageNum!=1){ 
 	%>
-		<a href="board_free.jsp?pageNum=<%=pageNum-1 %>" class="btn btn-success btn-arrow-left">이전</a>
+	<%-- 바꿀 부분  --%>
+		<a href="board_tip.jsp?pageNum=<%=pageNum-1 %>" class="btn btn-success btn-arrow-left">이전</a>
 	<% 
 	} if(boardDAO.showBoard(boardFilter,pageNum+1, 10).size()!=0){
 	%>
-		<a href="board_free.jsp?pageNum=<%=pageNum+1 %>" class="btn btn-success btn-arrow-left">다음</a>
+		<a href="board_tip.jsp?pageNum=<%=pageNum+1 %>" class="btn btn-success btn-arrow-left">다음</a>
 	<% 
 	} 
 	%>
-	<a href="write.jsp?boardType=free" class="btn btn-primary pull-right">글쓰기</a>
+	<a href="write.jsp?boardType=tip" class="btn btn-primary pull-right">글쓰기</a>
 	</div>
 	
 	

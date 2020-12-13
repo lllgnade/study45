@@ -71,6 +71,9 @@
 		<if test="pageStart != -1 and pageSize != -1">
 			ORDER BY regDate DESC LIMIT #{pageStart}, #{pageSize}
 		</if>
+		<if test="pageStart == -1 and pageSize == -1">
+			ORDER BY regDate ASC
+		</if>
 	</select>
 	
 	
