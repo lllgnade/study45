@@ -62,7 +62,7 @@
 		
 		
 		//DB로부터 정보 가져오기
-		BoardVO boardInfo = new BoardDAO().readOneBoard(boardNo);
+		BoardVO boardInfo = new BoardDAO().readOneBoard(boardNo,userID);
 		if(boardInfo==null){
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
@@ -104,7 +104,7 @@
 			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
 			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em;;">팁 공유 게시판</a>
 			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em">질문게시판</a>
-			<a class="navbar-brand" href="board_scrap.jsp" style="font-size:1.0em; background-color: #BEE6E5;">내 스크랩</a>
+			<a class="navbar-brand" href="board_scrap.jsp" style="font-size:1.0em; background-color: #BEE6E5;">스크랩</a>
 	<%	}else{
 	%>	
 			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>

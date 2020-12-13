@@ -16,6 +16,8 @@
 		<result property="readCount" column="readCount" />
 		<result property="boardAvailable" column="boardAvailable" />
 		<result property="name" column="name" />
+		<result property="if_scraped" column="if_scraped" />
+		
 		
 	</resultMap>
 
@@ -87,7 +89,7 @@
 		select U.userID, U.name, 
 				B.boardNo, B.boardType, B.title,B.contents,B.regDate,B.readCount,B.boardAvailable,
 		IF(
-              (SELECT COUNT(*) FROM scrap where scraperID = #{myID} AND boardNo = B.boardNo)>0
+              (SELECT COUNT(*) FROM scrap where scraperID = #{myID} AND boardNo = #{boardNo})>0
               ,"scraped","not_scraped"
         ) if_scraped       -- 게시물 스크랩 여부
 		FROM `user` U, `board` B
@@ -126,6 +128,52 @@
 			ORDER BY regDate ASC
 		</if>
 	</select>
+	
+	
+	
+	
+	<!-- 스크랩한 글 조회 쿼리. 받은 VO의 속성에 따라 where 절을 추가함. -->
+	<select id="scrapBoard" resultMap="boardResult" parameterType="boardVO">
+	<![CDATA[
+		select U.userID, U.name,
+				B.boardNo, B.boardType, B.title,B.contents,B.regDate,B.readCount,B.boardAvailable
+		FROM `user` U, `board` B
+	]]>
+		<where>
+			<if test="boardNo != '' and boardNo != null">
+				boardNo = #{boardNo}
+			</if>
+			<if test="boardType != '' and boardType != null">
+				and boardType = #{boardType}
+			</if>
+			<if test="userID != '' and userID != null">
+				and U.userID = #{userID}
+			</if>
+			<if test="title != '' and title != null">
+				and title = #{title}
+			</if>
+			<if test="contents != '' and contents != null">
+				and contents = #{contents}
+			</if>
+			<if test="regDate != '' and regDate != null">
+				and regDate = #{regDate}
+			</if>
+			<if test="readCount != null and readCount != -1">
+				and readCount = #{readCount}
+			</if>
+			<if test="boardAvailable != null and boardAvailable != -1">
+				and boardAvailable = #{boardAvailable}
+			</if>
+			and U.userID = B.userID
+			AND B.boardNo in (select boardNo FROM `scrap` where scraperID = #{myID})
+		</where>
+		<if test="pageStart != -1 and pageSize != -1">
+			ORDER BY regDate DESC LIMIT #{pageStart}, #{pageSize}
+		</if>
+		<if test="pageStart == -1 and pageSize == -1">
+			ORDER BY regDate ASC
+		</if>
+	</select>	
 	
 	
 	
@@ -197,6 +245,56 @@
 		boardNo = #{boardNo}
 	]]>
 	</delete>
+	
+	
+	
+	
+	
+	
+	<!--스크랩 -->
+	<!--반환 레코드를 config에서 지정한 scrapVO 빈에 저장 -->
+	<resultMap id="scrapResult" type="scrapVO">
+		<result property="boardNo" column="boardNo" />	<!-- bean 속성 / db 칼럼명 (대응) -->
+		<result property="scraperID" column="scraperID" />
+		<result property="regDate" column="regDate" />
+	</resultMap>
+	
+	<!-- 스크랩 조회 쿼리. scrapVO의 속성에 따라 where 절을 추가함. -->
+	<select id="searchScrap" resultMap="scrapResult" parameterType="scrapVO">
+	<![CDATA[
+		select * from scrap
+	]]>
+		<where>
+			<if test="boardNo != '' and boardNo != null">
+				boardNo = #{boardNo}
+			</if>
+			<if test="scraperID != '' and scraperID != null">
+				and scraperID = #{scraperID}
+			</if>
+			<if test="regDate != '' and regDate != null">
+				and regDate = #{regDate}
+			</if>
+		</where>
+		ORDER BY hearterID ASC, regDate DESC;
+	</select>
+	
+	<!-- 스크랩 추가 쿼리 -->
+	<insert id="insertScrap" parameterType="scrapVO">
+	<![CDATA[
+		insert into scrap
+		values(#{boardNo},#{scraperID},NOW())
+	]]>
+	</insert>
+	
+	<!-- 스크랩 삭제 쿼리 -->
+	<delete id="deleteScrap" parameterType="scrapVO">
+	<![CDATA[
+		delete from scrap
+		where
+		boardNo = #{boardNo} AND scraperID = #{scraperID}
+	]]>
+	</delete>
+	
 	
 	
 </mapper>

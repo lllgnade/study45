@@ -43,9 +43,7 @@
 		boardFilter.setUserID(userID);
 		List<BoardVO> mylist = boardDAO.searchBoard(boardFilter, 1, 3);
 		//내가 스크랩한 글 최신순 3개 가져오기
-		boardFilter = new BoardVO(); 
-		
-		
+		List<BoardVO> myScraplist = boardDAO.myScrapBoard(userID, 1, 3);
 		
 	%>
 	<%-- 네비게이션  --%>
@@ -127,18 +125,24 @@
   		<div class="panel-heading">스크랩</div>
   		<div class="panel-body">
     		<table class="table table-hover">
-				<tr>
-					<th scope="col" class="text-left">글 보이는 곳</th>
-				</tr>
-				<tr>
-					<th scope="col" class="text-left">글 보이는 곳</th>
-				</tr>
-				<tr>
-					<th scope="col" class="text-left">글 보이는 곳</th>
-				</tr>
-				<tr>
-					<th scope="col" class="text-right"><a href="/study45/board/board_scrap.jsp"><h6>모든 글 보기</h6></a></th>
-				</tr>
+				<colgroup>
+		       <col span="1" style="width: 10%;">
+		       <col span="1" style="width: 90%;">
+		    </colgroup>
+    		
+    	<%		for(BoardVO board: myScraplist){
+		%>
+		<tr>
+			<th scope="col" class="text-center"><%= board.getBoardType() %></th>
+			<th scope="col" class="text-left"><a href="/study45/board/sub_view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=1&location=scrap"><%= board.getTitle() %></a></th>
+		</tr>
+		<%
+			}
+		%>
+		
+		<tr>
+			<th scope="col" colspan="2" class="text-right"><a href="/study45/board/board_scrap.jsp"><h6>모든 글 보기</h6></a></th>
+		</tr>
 			</table>
   		</div>
 	</div>

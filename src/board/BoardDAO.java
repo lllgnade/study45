@@ -17,7 +17,7 @@ public class BoardDAO {
 		boardFilter.setReadCount(-1); //조회수 필터 초기화
 		boardFilter.setBoardAvailable(-1); //유효 필터 초기화. 데이터베이스 내 모든 글 조회
 		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
-		sqlSession.close();		
+		sqlSession.close();
 		return boardlist;
 	}
 	
@@ -50,16 +50,38 @@ public class BoardDAO {
 		return boardlist;
 	}
 
+	
+	
+	
+	
+	//내가 스크랩한 글 목록
+	public List<BoardVO> myScrapBoard(String myID, int pageNum, int pageSize) throws DataAccessException {
+		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
+		BoardVO boardFilter = new BoardVO();
+		boardFilter.setMyID(myID);
+		boardFilter.setPageStart((pageNum-1) * pageSize);
+		boardFilter.setPageSize(pageSize);
+		boardFilter.setReadCount(-1); //조회수 필터 초기화
+		boardFilter.setBoardAvailable(1); //유효한 글만 조회
+		List<BoardVO> scrapboardlist = sqlSession.selectList("mapper.board.scrapBoard", boardFilter);
+        sqlSession.close();
+		return scrapboardlist;
+	}
+	
+	
+	
+	
 	//글 조회. 조회수를 같이 업데이트함
-	public BoardVO readOneBoard(int boardNo) throws DataAccessException {
+	public BoardVO readOneBoard(int boardNo, String myID) throws DataAccessException {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
 		//고유 번호 필터 생성
 		BoardVO boardFilter = new BoardVO();
 		boardFilter.setBoardNo(boardNo);
+		boardFilter.setMyID(myID);
 		boardFilter.setReadCount(-1); //조회수 필터 초기화
 		boardFilter.setBoardAvailable(1); //유효한 글만 조회
 		//필터로 서치
-		BoardVO board = sqlSession.selectOne("mapper.board.searchBoard",boardFilter);
+		BoardVO board = sqlSession.selectOne("mapper.board.showBoard",boardFilter);
 		
 		if (board!=null) {
 			int result = sqlSession.update("mapper.board.addReadCount",boardFilter);
@@ -163,5 +185,60 @@ public class BoardDAO {
 		else
 			return "fail";
 	}
+	
+	
+	
+	
+	/*스크랩 관련*/
+	
+
+	
+	//조건으로 스크랩 선택
+	public List<ScrapVO> searchScrap(ScrapVO scrapFilter, int pageNum, int pageSize) throws DataAccessException {
+		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
+		scrapFilter.setPageStart((pageNum-1) * pageSize);
+		scrapFilter.setPageSize(pageSize);
+		List<ScrapVO> scrapList = sqlSession.selectList("mapper.board.searchScrap", scrapFilter);
+        sqlSession.close();
+		return scrapList;
+	}
+	
+	// 스크랩하기
+	public String addScrap(ScrapVO scrapFilter) throws DataAccessException {
+		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
+		int result = sqlSession.insert("mapper.board.insertScrap", scrapFilter);
+		sqlSession.commit();
+        sqlSession.close();
+		
+		if (result == 1) {
+			System.out.println("insert 성공");
+			return "ok"; // insert 성공
+		} else {
+			System.out.println("insert 실패");
+			return "fail"; // insert 실패
+		}
+	}
+
+	// 스크랩 해제
+	public String deleteScrap(ScrapVO scrapFilter) throws DataAccessException {
+		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
+		int result = sqlSession.delete("mapper.board.deleteScrap", scrapFilter);
+		sqlSession.commit();
+        sqlSession.close();
+
+
+		if (result == 1) {
+			System.out.println("delete 성공");
+			return "ok"; // delete 성공
+		} else {
+			System.out.println("delete 실패");
+			return "fail"; // delete 실패
+		}
+	}	
+	
+	
+	
+	
+	
 
 }

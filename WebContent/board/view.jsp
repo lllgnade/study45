@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.lang.System"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="board.BoardVO"%>
 <%@ page import="board.BoardDAO"%>
@@ -50,7 +51,7 @@
 		
 		
 		//DB로부터 정보 가져오기
-		BoardVO boardInfo = new BoardDAO().readOneBoard(boardNo);
+		BoardVO boardInfo = new BoardDAO().readOneBoard(boardNo,userID);
 		if(boardInfo==null){
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
@@ -70,6 +71,7 @@
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		}
 		
+		System.out.println(boardInfo.getIf_scraped());
 	%>
 
 	
@@ -155,13 +157,26 @@
 		if(userID!=null && userID.equals(boardInfo.getUserID())){
 	%>
 	<a href="update.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">수정</a>
-	
-
 	<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="delete_process.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">삭제</a>
+	<%
+		} 
+	
+		//스크랩 여부에 따라 버튼을 다르게 함
+		if(boardInfo.getIf_scraped().contains("not")){
+	%>
+	<a href="scrap_process.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>&act=add" class="btn btn-warning pull-right">스크랩</a>
+	<%
+		}
+	
+		else{
+	%>
+	<a href="scrap_process.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>&act=delete" class="btn btn-secondary pull-right">스크랩 해제</a>
 	
 	<%
 		}
+	
 	%>
+	
 	</div>
 	</div>
 	

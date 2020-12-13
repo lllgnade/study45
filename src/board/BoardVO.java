@@ -15,6 +15,9 @@ public class BoardVO {
 	private String name;
 	private String myID;
 	
+	//스크랩 정보
+	private String if_scraped;
+	
 	//임시
 	private int pageStart =-1;
 	private int pageSize =-1;
@@ -139,6 +142,14 @@ public class BoardVO {
 
 	public void setMyID(String myID) {
 		this.myID = myID;
+	}
+
+	public String getIf_scraped() {
+		return if_scraped;
+	}
+
+	public void setIf_scraped(String if_scraped) {
+		this.if_scraped = if_scraped;
 	}
 
 

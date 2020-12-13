@@ -58,7 +58,7 @@
 			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
 			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em">팁 공유 게시판</a>
 			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em">질문게시판</a>
-			<a class="navbar-brand" href="board_my.jsp" style="font-size:1.0em; background-color: #BEE6E5; align:right;">내 글 보기</a>
+			<a class="navbar-brand" href="board_scrap.jsp" style="font-size:1.0em; background-color: #BEE6E5; align:right;">스크랩</a>
 		</div>
 		<%-- 우측 상단 메뉴 --%>
 		<div class="collapse navbar-collapse"
@@ -99,13 +99,12 @@
 			BoardDAO boardDAO = new BoardDAO();
 			
 			//내 글 가져오기
-			BoardVO boardFilter = new BoardVO();
-			boardFilter.setUserID(userID);
-			List<BoardVO> mylist = boardDAO.searchBoard(boardFilter, pageNum, 10);
-			for(BoardVO board: mylist){
+			List<BoardVO> myScraplist = boardDAO.myScrapBoard(userID, pageNum, 10);
+			
+			for(BoardVO board: myScraplist){
 		%>
 		<tr>
-			<td scope="col" class="text-center"><a href="sub_view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=<%=pageNum%>&location=my"><%= board.getTitle() %></a></td>
+			<td scope="col" class="text-center"><a href="sub_view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=<%=pageNum%>&location=scrap"><%= board.getTitle() %></a></td>
 			<td scope="col" class="text-center"><%= board.getName() %></td>
 			<td scope="col" class="text-center"><%= board.getRegDate()%></td>
 			<td scope="col" class="text-center"><%= board.getReadCount() %></td>
@@ -118,11 +117,11 @@
 	<% 
 	if(pageNum!=1){ 
 	%>
-		<a href="board_my.jsp?pageNum=<%=pageNum-1 %>" class="btn btn-success btn-arrow-left">이전</a>
+		<a href="board_scrap.jsp?pageNum=<%=pageNum-1 %>" class="btn btn-success btn-arrow-left">이전</a>
 	<% 
-	} if(boardDAO.showBoard(boardFilter,pageNum+1, 10).size()!=0){
+	} if(boardDAO.myScrapBoard(userID,pageNum+1, 10).size()!=0){
 	%>
-		<a href="board_my.jsp?pageNum=<%=pageNum+1 %>" class="btn btn-success btn-arrow-left">다음</a>
+		<a href="board_scrap.jsp?pageNum=<%=pageNum+1 %>" class="btn btn-success btn-arrow-left">다음</a>
 	<% 
 	} 
 	%>

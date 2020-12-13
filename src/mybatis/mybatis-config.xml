@@ -3,9 +3,13 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd"> 
 <configuration>
     <!-- 특정 타입의 별명을 정합니다 -->
+
+    
     <typeAliases>
         <typeAlias type="user.UserVO" alias="userVO"/>
 		<typeAlias type="board.BoardVO" alias="boardVO"/>
+		<typeAlias type="board.ScrapVO" alias="scrapVO"/>
+		
     </typeAliases>
  
  
@@ -31,4 +35,5 @@
         <mapper resource="mybatis/mappers/user.xml"/>
 		<mapper resource="mybatis/mappers/board.xml"/>
     </mappers>
+    
 </configuration>
