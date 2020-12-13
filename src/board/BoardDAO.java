@@ -15,7 +15,7 @@ public class BoardDAO {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
 		BoardVO boardFilter = new BoardVO();
 		boardFilter.setReadCount(-1); //조회수 필터 초기화
-		boardFilter.setBoardAvailable(1); //유효한 글만 조회
+		boardFilter.setBoardAvailable(-1); //유효 필터 초기화. 데이터베이스 내 모든 글 조회
 		List<BoardVO> boardlist = sqlSession.selectList("mapper.board.searchBoard", boardFilter);
 		sqlSession.close();		
 		return boardlist;
@@ -35,7 +35,7 @@ public class BoardDAO {
 		return boardlist;
 	}
 
-	
+	//글 조회. 조회수를 같이 업데이트함
 	public BoardVO readOneBoard(int boardNo) throws DataAccessException {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
 		//고유 번호 필터 생성
@@ -59,12 +59,12 @@ public class BoardDAO {
 		return board;
 	}
 	
-	
-	public BoardVO selectThisBoard(String boardNo) throws DataAccessException {
+	//글 정보만 조회.
+	public BoardVO selectThisBoard(int boardNo) throws DataAccessException {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
 		//고유 번호 필터 생성
 		BoardVO boardFilter = new BoardVO();
-		boardFilter.setBoardNo(Integer.parseInt(boardNo));
+		boardFilter.setBoardNo(boardNo);
 		boardFilter.setReadCount(-1); //조회수 필터 초기화
 		boardFilter.setBoardAvailable(1); //유효한 글만 조회
 		//필터로 서치
@@ -118,11 +118,15 @@ public class BoardDAO {
 			return "fail"; //update 실패
 	}
 	
-	public String discardBoard(BoardVO boardInfo) throws DataAccessException {
+	
+	//DB에는 남겨두지만 더이상 읽을 수 없게 함
+	public String discardBoard(int boardNo) throws DataAccessException {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
-		boardInfo.setReadCount(-1); //조회수 반영x
-		boardInfo.setBoardAvailable(0); //글을 유효하지 않게 함
-		int result = sqlSession.update("mapper.board.updateBoard",boardInfo);
+		BoardVO boardFilter = new BoardVO();
+		boardFilter.setBoardNo(boardNo);
+		boardFilter.setReadCount(-1); //조회수 반영x
+		boardFilter.setBoardAvailable(0); //글을 유효하지 않게 함
+		int result = sqlSession.update("mapper.board.updateBoard",boardFilter);
 		sqlSession.commit();
         sqlSession.close();
 		
@@ -131,10 +135,8 @@ public class BoardDAO {
 		else
 			return "fail"; //update 실패
 	}
-
 	
-	
-
+	//DB에서 완전히 삭제
 	public String deleteBoard(String boardNo) throws DataAccessException {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
 		int result = sqlSession.delete("mapper.board.deleteBoard",boardNo);

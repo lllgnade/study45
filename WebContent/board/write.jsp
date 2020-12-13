@@ -13,13 +13,7 @@
 </head>
 <body>
 	<%
-		/*
-			게시판 소스코드.
-			게시판 글쓰기 소스코드인 write.jsp 필요
-			글을 db에서 리스트화해서 가져와서 처리해야 함
-			아직 게시판 내 글 링크화 안시킴
-			글 링크를 누르면 로그인으로 이동하는 부분 필요
-		*/
+		
 		// 로그인을 한 사람이면 userID에 아이디를 저장, 아닐 경우 null값
 		String userID = null;
 		if(session.getAttribute("userID") != null){
@@ -35,6 +29,16 @@
 			return;
 		}
 		
+		if(request.getParameter("boardType")==null){
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('잘못된 요청입니다.')");
+			script.println("history.back()");
+			script.println("</script>");
+			return;
+		}
+		String boardType = request.getParameter("boardType");
+		
 	%>
 
 	
@@ -49,9 +53,25 @@
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="../main.jsp">Study for 4.5</a>
-			<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
+			<%	
+		//활성화된 게시판 색칠. 조건으로 style 다는 법을 몰라서..
+		if(boardType.contains("tip")){
+	%>
+			<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em;">자유게시판</a>
+			<a class="navbar-brand" href="#" style="font-size:1.0em; background-color: #BEE6E5;">팁 공유 게시판</a>
+			<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
+	<%	}else if(boardType.contains("question")){
+	%>	
+			<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em;">자유게시판</a>
+			<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
+			<a class="navbar-brand" href="#" style="font-size:1.0em; background-color: #BEE6E5;">질문게시판</a>
+			
+	<%	} else{
+	%>		<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
 			<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
 			<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
+	<%	}
+	%>	
 		</div>
 		<%-- 우측 상단 메뉴 --%>
 		<div class="collapse navbar-collapse"
@@ -70,7 +90,7 @@
 	</nav>
 	<div class="container">
 	<div class="row">
-	<form method="post" action="write_process.jsp?location=free">
+	<form method="post" action="write_process.jsp?boardType=<%=boardType%>">
 	<table class="table table-striped" style="text-align : center; border:1px solid #dddddd">
 		<thead>
 		<tr>
@@ -78,10 +98,6 @@
 		</tr>
 	</thead>
 	<tbody>
-		<%
-			// 게시글 리스트 db에서 불러오는 부분
-			// 밑의 글은 예시
-		%>
 		<tr>
 			<td><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="100"></td>
 		</tr>

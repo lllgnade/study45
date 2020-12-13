@@ -22,10 +22,7 @@
 </head>
 <body>
 	<%
-		/*
-			게시판 소스코드.
-			아직 게시판 내 글 링크화 안시킴
-		*/
+		
 		// 로그인을 한 사람이면 userID에 아이디를 저장, 아닐 경우 null값
 		String userID = null;
 		if(session.getAttribute("userID") != null){
@@ -139,7 +136,7 @@
 	<% 
 	} 
 	%>
-	<a href="write.jsp" class="btn btn-primary pull-right">글쓰기</a>
+	<a href="write.jsp?boardType=free" class="btn btn-primary pull-right">글쓰기</a>
 	</div>
 	
 	

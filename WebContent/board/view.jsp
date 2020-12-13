@@ -16,11 +16,6 @@
 <body>
 	<%
 
-		/*게시판 이름은 boardType으로부터 불러올 것.*/
-	
-	
-	
-		
 		//게시물 번호 받아오기
 		int boardNo=-1;
 		if(request.getParameter("boardNo")!=null){
@@ -156,8 +151,8 @@
 	<% 
 		if(userID!=null && userID.equals(boardInfo.getUserID())){
 	%>
-	<a href="update.jsp?boardNo=<%=boardNo%>" class="btn btn-primary">수정</a>
-	<a href="delete_process.jsp?boardNo=<%=boardNo%>" class="btn btn-primary">삭제</a>
+	<a href="update.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">수정</a>
+	<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="delete_process.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">삭제</a>
 	<%
 		}
 	%>
