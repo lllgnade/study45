@@ -36,11 +36,11 @@ public class BoardDAO {
 	}
 
 	
-	public BoardVO readOneBoard(String boardNo) throws DataAccessException {
+	public BoardVO readOneBoard(int boardNo) throws DataAccessException {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
 		//고유 번호 필터 생성
 		BoardVO boardFilter = new BoardVO();
-		boardFilter.setBoardNo(Integer.parseInt(boardNo));
+		boardFilter.setBoardNo(boardNo);
 		boardFilter.setReadCount(-1); //조회수 필터 초기화
 		boardFilter.setBoardAvailable(1); //유효한 글만 조회
 		//필터로 서치

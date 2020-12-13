@@ -118,7 +118,7 @@
 			for(BoardVO board: boardlist){
 		%>
 		<tr>
-			<td scope="col" class="text-center"><a href="view.jsp?boardNo=<%= board.getBoardNo() %>&location=board_free"><%= board.getTitle() %></a></td>
+			<td scope="col" class="text-center"><a href="view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=<%=pageNum%>"><%= board.getTitle() %></a></td>
 			<td scope="col" class="text-center"><%= board.getName() %></td>
 			<td scope="col" class="text-center"><%= board.getRegDate()%></td>
 			<td scope="col" class="text-center"><%= board.getReadCount() %></td>

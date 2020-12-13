@@ -15,22 +15,13 @@
 </head>
 <body>
 	<%
+
+		/*게시판 이름은 boardType으로부터 불러올 것.*/
+	
+	
+	
 		
-		// 로그인을 한 사람이면 userID에 아이디를 저장, 아닐 경우 null값
-		String userID = null;
-		if(session.getAttribute("userID") != null){
-			userID=(String) session.getAttribute("userID");
-		}
-		
-		//로그인하지 않았을 경우 로그인 페이지로 이동
-		if (userID == null) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("location.href = '/study45/login.jsp?location=board_free'");
-			script.println("</script>");
-			return;
-		}
-		
+		//게시물 번호 받아오기
 		int boardNo=-1;
 		if(request.getParameter("boardNo")!=null){
 			boardNo = Integer.parseInt(request.getParameter("boardNo"));
@@ -39,18 +30,54 @@
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
 			script.println("alert('유효하지 않은 글입니다.')");
-			script.println("history.back()");
+			script.println("location.href = '../main.jsp'");
+			script.println("</script>");
+			return;
+		}
+	
+		
+		// 로그인을 한 사람이면 userID에 아이디를 저장, 아닐 경우 null값
+		String userID = null;
+		if(session.getAttribute("userID") != null){
+			userID=(String) session.getAttribute("userID");
+		}
+		
+		//로그인하지 않았을 경우 로그인 페이지로 이동하기
+		if (userID == null) {
+	%>
+		<script>
+		location.href = '../login.jsp?location=view<%=boardNo%>'
+		</script>
+	<%
+			return;
+		}
+		
+		
+		//DB로부터 정보 가져오기
+		BoardVO boardInfo = new BoardDAO().readOneBoard(boardNo);
+		if(boardInfo==null){
+			PrintWriter script = response.getWriter();
+			script.println("<script>");
+			script.println("alert('해당 글이 존재하지 않거나 삭제되었습니다.')");
+			script.println("location.href = '../main.jsp'");
 			script.println("</script>");
 			return;
 		}
 		
-		String location = "main";
-		location = request.getParameter("location");
+		//게시판 종류 받아오기
+		String boardType = "free";
+		boardType = boardInfo.getBoardType(); 
 		
+		//요청시의 게시판 페이지번호 받아오기
+		int pageNum=1; 
+		if(request.getParameter("pageNum")!=null){
+			pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		}
 		
 	%>
 
 	
+
 	
 	<%-- 네비게이션  --%>
 	<nav class="navbar navbar-default" style="background-color: #CEF6F5">
@@ -62,9 +89,25 @@
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="../main.jsp">Study for 4.5</a>
-			<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
+	<%	
+		//활성화된 게시판 색칠. 조건으로 style 다는 법을 몰라서..
+		if(boardType.contains("tip")){
+	%>
+			<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em;">자유게시판</a>
+			<a class="navbar-brand" href="#" style="font-size:1.0em; background-color: #BEE6E5;">팁 공유 게시판</a>
+			<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
+	<%	}else if(boardType.contains("question")){
+	%>	
+			<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em;">자유게시판</a>
+			<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
+			<a class="navbar-brand" href="#" style="font-size:1.0em; background-color: #BEE6E5;">질문게시판</a>
+			
+	<%	} else{
+	%>		<a class="navbar-brand" href="../board/board_free.jsp" style="font-size:1.0em; background-color: #BEE6E5;">자유게시판</a>
 			<a class="navbar-brand" href="#" style="font-size:1.0em">팁 공유 게시판</a>
 			<a class="navbar-brand" href="#" style="font-size:1.0em">질문게시판</a>
+	<%	}
+	%>	
 		</div>
 		<%-- 우측 상단 메뉴 --%>
 		<div class="collapse navbar-collapse"
@@ -83,28 +126,41 @@
 	</nav>
 	<div class="container">
 	<div class="row">
-	<form method="post" action="write_process.jsp?location=free">
 	<table class="table table-striped" style="text-align : center; border:1px solid #dddddd">
 		<thead>
 		<tr>
-			<th colspan="2" scope="col" class="text-center" style="background-color: #eeeeee">글쓰기</th>
+			<th colspan="3" scope="col" class="text-center" style="background-color: #eeeeee">글 보기</th>
 		</tr>
 	</thead>
 	<tbody>
-		<%
-			// 게시글 리스트 db에서 불러오는 부분
-			// 밑의 글은 예시
-		%>
 		<tr>
-			<td><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="100"></td>
+			<td style="width: 20%;">글 제목</td>
+			<td colspan="2"><%= boardInfo.getTitle().replaceAll(" ", "&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
 		</tr>
-		<tr>	
-			<td><textarea class="form-control" placeholder="글 내용" name="contents" maxlength="4096" style="height:350px;resize: vertical;"></textarea></td>
+		
+		<tr>
+			<td>작성자</td>
+			<td colspan="2"><%= boardInfo.getName().replaceAll(" ", "&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
+		</tr>
+		<tr>
+			<td>작성일자</td>
+			<td colspan="2"><%= boardInfo.getRegDate() %></td>
+		</tr>
+		<tr>
+			<td>내용</td>
+			<td colspan="2" style="min-height:200px; text-align:left;"><%= boardInfo.getContents().replaceAll(" ", "&nbsp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll("\n","<br>") %></td>
 		</tr>
 	</tbody>
 	</table>
-	<input type="submit" class="btn btn-primary pull-right" value="글쓰기">
-	</form>
+	<a href="board_<%=boardType%>.jsp?pageNum=<%=pageNum%>" class="btn btn-primary">목록</a>
+	<% 
+		if(userID!=null && userID.equals(boardInfo.getUserID())){
+	%>
+	<a href="update.jsp?boardNo=<%=boardNo%>" class="btn btn-primary">수정</a>
+	<a href="delete_process.jsp?boardNo=<%=boardNo%>" class="btn btn-primary">삭제</a>
+	<%
+		}
+	%>
 	</div>
 	</div>
 	
