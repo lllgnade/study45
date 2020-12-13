@@ -25,24 +25,12 @@
 		/*
 			게시판 소스코드.
 			아직 게시판 내 글 링크화 안시킴
-			글 링크를 누르면 로그인으로 이동하는 부분 필요
 		*/
 		// 로그인을 한 사람이면 userID에 아이디를 저장, 아닐 경우 null값
 		String userID = null;
 		if(session.getAttribute("userID") != null){
 			userID=(String) session.getAttribute("userID");
 		}
-		
-		/*
-		//로그인하지 않았을 경우 로그인 페이지로 이동 -- view 페이지에 넣을 것
-		if (userID == null) {
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("location.href = '/study45/login.jsp?location=board_free'");
-			script.println("</script>");
-			return;
-		}
-		*/
 		
 		int pageNum=1;
 		if(request.getParameter("pageNum")!=null){
@@ -130,7 +118,7 @@
 			for(BoardVO board: boardlist){
 		%>
 		<tr>
-			<td scope="col" class="text-center"><a href="view.jsp?boardNo=<%= board.getBoardNo() %>"><%= board.getTitle() %></a></td>
+			<td scope="col" class="text-center"><a href="view.jsp?boardNo=<%= board.getBoardNo() %>&location=board_free"><%= board.getTitle() %></a></td>
 			<td scope="col" class="text-center"><%= board.getName() %></td>
 			<td scope="col" class="text-center"><%= board.getRegDate()%></td>
 			<td scope="col" class="text-center"><%= board.getReadCount() %></td>

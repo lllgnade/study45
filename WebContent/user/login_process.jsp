@@ -32,8 +32,6 @@
 			script.println("</script>");
 			return;
 		}
-	
-		
 		
 		if (userInfo.getUserID() == null || userInfo.getUserID().isEmpty()) {
 			PrintWriter script = response.getWriter();
@@ -43,6 +41,10 @@
 			script.println("</script>");
 			return;
 		}
+		
+		
+		String location = request.getParameter("location"); //로그인 요청 받은 위치
+		
 	
 		UserDAO userDAO = new UserDAO();
 		String answer = null;
@@ -57,7 +59,7 @@
 			PrintWriter script = response.getWriter();
 			
 
-			String location = request.getParameter("location"); //로그인 요청 받은 위치
+			
 
 			script.println("<script>");
 			
