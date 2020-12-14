@@ -14,6 +14,19 @@
 <link rel="stylesheet" href="../css/bootstrap.css">
 <title>study for 4.5</title>
 <style type="text/css">
+	table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border-bottom: 1px solid #444444;
+    padding: 10px;
+    text-align: center;
+  }
+  td {
+    background-color: #EFFBF8;
+  }
 	a, a:hover{
 	color : #000000;
 	text-decoration : none;
@@ -90,22 +103,21 @@
 	</nav>
 	<div class="container">
 	
-	<table class="table table-hover" style="width: 100%">
-	
+	<table class="table table-hover" style="width: 100%">	
 		<colgroup>
-       <col span="1" style="width: 58%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 15%;">
-       <col span="1" style="width: 7%;">
-    </colgroup>
+       		<col span="1" style="width: 58%;">
+       		<col span="1" style="width: 20%;">
+       		<col span="1" style="width: 15%;">
+       		<col span="1" style="width: 7%;">
+    	</colgroup>
 		<thead>
-		<tr>
-			<th scope="col" class="text-center" style="background-color: #eeeeee">제목</th>
-			<th scope="col" class="text-center" style="background-color: #eeeeee">글쓴이</th>
-			<th scope="col" class="text-center" style="background-color: #eeeeee">작성일</th>
-			<th scope="col" class="text-center" style="background-color: #eeeeee">조회수</th>
-		</tr>
-	</thead>
+			<tr>
+				<th scope="col" class="text-center" style="background-color: #BCF5A9">제목</th>
+				<th scope="col" class="text-center" style="background-color: #BCF5A9">글쓴이</th>
+				<th scope="col" class="text-center" style="background-color: #BCF5A9">작성일</th>
+				<th scope="col" class="text-center" style="background-color: #BCF5A9">조회수</th>
+			</tr>
+		</thead>
 	<tbody>
 		<%
 			BoardDAO boardDAO= new BoardDAO();

@@ -106,7 +106,7 @@
 	<table class="table table-striped" style="text-align : center; border:1px solid #dddddd">
 		<thead>
 		<tr>
-			<th colspan="2" scope="col" class="text-center" style="background-color: #eeeeee">글쓰기</th>
+			<th colspan="2" scope="col" class="text-center" style="background-color: #BCF5A9">글쓰기</th>
 		</tr>
 	</thead>
 	<tbody>

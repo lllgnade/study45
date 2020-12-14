@@ -20,7 +20,7 @@
 	<div class="container">
  		<div class="login"></div>
  		<div class="login">
-   			<div class="jumbotron" style="padding-top: 20px;">
+   			<div class="jumbotron" style="padding-top: 20px; background-color: #F8E0F1">
    				<form action="user/join_process.jsp" method="post">
     				<h3 style="text-align: center;">회원가입</h3>
     				<div class="form-group">

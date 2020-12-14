@@ -29,7 +29,7 @@
 	<div class="container">
  		<div class="login"></div>
  		<div class="login">
-   			<div class="jumbotron" style="padding-top: 20px;">
+   			<div class="jumbotron" style="padding-top: 20px; background-color: #F8E0F1">
    				<form action="user/login_process.jsp?location=<%=location%>" method="post">
     				<h3 style="text-align: center;"> 해당 기능은 로그인이 필요합니다. </h3>
     				<div class="form-group">
@@ -48,7 +48,7 @@
 	<div class="container">
 		<div class="join"></div>
 		<div class="join">
-			<div class="jumbotron" style="padding-top: 10px;">
+			<div class="jumbotron" style="padding-top: 10px; background-color: #F8E0F1">
 				<a href="join.jsp"><input type="submit" class="btn btn-privary form-control" value="회원가입"></a>
 			</div>
 		</div>

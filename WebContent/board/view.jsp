@@ -127,7 +127,7 @@
 	<table class="table table-striped" style="text-align : center; border:1px solid #dddddd">
 		<thead>
 		<tr>
-			<th colspan="3" scope="col" class="text-center" style="background-color: #eeeeee">글 보기</th>
+			<th colspan="3" scope="col" class="text-center" style="background-color: #BCF5A9">글 보기</th>
 		</tr>
 	</thead>
 	<tbody>

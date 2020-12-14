@@ -96,7 +96,7 @@
 		</div>
 	</nav>
 	<div class="panel panel-default">
-  		<div class="panel-heading">내 글 보기</div>
+  		<div class="panel-heading" style="background-color: #BCF5A9">내 글 보기</div>
   		<div class="panel-body">
     		<table class="table table-hover">
     		<colgroup>
@@ -122,7 +122,7 @@
 	</div>
 
 	<div class="panel panel-default">
-  		<div class="panel-heading">스크랩</div>
+  		<div class="panel-heading" style="background-color: #BCF5A9">스크랩</div>
   		<div class="panel-body">
     		<table class="table table-hover">
 				<colgroup>

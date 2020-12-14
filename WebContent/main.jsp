@@ -75,7 +75,7 @@
 		</div>
 	</nav>
 	<div class="container">
-		<div class="jumbotron">
+		<div class="jumbotron" style="background-color: #BCF5A9">
 			<div class="container">
 				<h2>Study for 4.5</h2>
 				<h4>다른 유저와 공부 팁을 공유해서 더 나은 공부 팁을 찾아 가는 곳입니다.</h4>
