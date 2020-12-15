@@ -4,6 +4,8 @@
 <%@ page import="board.BoardVO"%>
 <%@ page import="board.BoardDAO"%>
 <%@ page import="java.util.List"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,7 +86,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false"><%=userID%> <span class="caret"></span></a>
+					aria-expanded="false">${userID} <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="user/logout_process.jsp">로그아웃</a></li>
 					</ul>
@@ -103,16 +105,26 @@
 		       <col span="1" style="width: 10%;">
 		       <col span="1" style="width: 90%;">
 		    </colgroup>
-    		
-    	<%		for(BoardVO board: mylist){
-		%>
-		<tr>
-			<th scope="col" class="text-center"><%= board.getBoardType() %></th>
-			<th scope="col" class="text-left"><a href="/study45/board/sub_view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=1&location=my"><%= board.getTitle() %></a></th>
-		</tr>
-		<%
-			}
-		%>
+		    
+		    
+		    <c:choose>
+			<c:when test="<%=mylist == null || mylist.size()==0%>">
+				<tr>
+					<td colspan=2><b>내가 쓴 글이 없습니다.</b></td>
+				</tr>
+			</c:when>
+			<c:otherwise>
+				<c:forEach var="board" items="<%=mylist%>">
+
+					<tr>
+						<th scope="col" class="text-center">${board.boardType}</th>
+						<th scope="col" class="text-left"><a
+							href="/study45/board/sub_view.jsp?boardNo=${board.boardNo}&pageNum=1&location=my">
+								${board.title}</a></th>
+					</tr>
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
 		
 		<tr>
 			<th scope="col" colspan="2" class="text-right"><a href="/study45/board/board_my.jsp"><h6>모든 글 보기</h6></a></th>
@@ -129,16 +141,25 @@
 		       <col span="1" style="width: 10%;">
 		       <col span="1" style="width: 90%;">
 		    </colgroup>
-    		
-    	<%		for(BoardVO board: myScraplist){
-		%>
-		<tr>
-			<th scope="col" class="text-center"><%= board.getBoardType() %></th>
-			<th scope="col" class="text-left"><a href="/study45/board/sub_view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=1&location=scrap"><%= board.getTitle() %></a></th>
-		</tr>
-		<%
-			}
-		%>
+		    
+		    <c:choose>
+			<c:when test="<%=myScraplist == null || myScraplist.size()==0%>">
+				<tr>
+					<td colspan=2><b>스크랩한 글이 없습니다.</b></td>
+				</tr>
+			</c:when>
+			<c:otherwise>
+				<c:forEach var="board" items="<%=myScraplist%>">
+
+					<tr>
+						<th scope="col" class="text-center">${board.boardType}</th>
+						<th scope="col" class="text-left"><a
+							href="/study45/board/sub_view.jsp?boardNo=${board.boardNo}&pageNum=1&location=scrap">
+								${board.title}</a></th>
+					</tr>
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
 		
 		<tr>
 			<th scope="col" colspan="2" class="text-right"><a href="/study45/board/board_scrap.jsp"><h6>모든 글 보기</h6></a></th>

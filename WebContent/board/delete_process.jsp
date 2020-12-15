@@ -29,9 +29,8 @@
 		script.println("</script>");
 		return;
 	}	
-	//게시판명 받아오기
-	String boardType = request.getParameter("boardType");
-	if (boardType == null) {
+	//게시판명 유효 체크
+	if (request.getParameter("boardType") == null) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('잘못된 요청입니다.')");
@@ -39,10 +38,6 @@
 		script.println("</script>");
 		return;
 	}
-	//특정 요청 지점이 있으면 받아오기
-	String location = "";
-	if(request.getParameter("location")!=null)
-		location = request.getParameter("location");
 	
 	//사용자 ID 받아오기
 	String userID = null;
@@ -53,7 +48,7 @@
 	%>	
 		<script>
 		alert('로그인 해야 합니다.')
-		location.href = '../login.jsp?location=board_<%=boardType%>'
+		location.href = '../login.jsp?location=board_${param.boardType}'
 		</script>
 	<%
 		return;
@@ -74,7 +69,7 @@
 	%>	
 		<script>
 		alert('글을 삭제할 권한이 없습니다.')
-		location.href = 'board_<%=boardInfo.getBoardType()%>.jsp'
+		location.href = 'board_${param.boardType}.jsp'
 		</script>
 	<%		
 		return; }
@@ -94,18 +89,13 @@
 			return;
 		}
 		if("ok".equals(answer)){ //게시물 삭제 성공시 해당 게시판으로 이동
-			if(!location.isEmpty()){//특정한 요청 지점이 있으면
 			
+			//특정 요청 지점이 있으면 요청 지점으로, 없으면 해당 게시판으로
 			%>
-					<script>
-					location.href = 'board_<%=location%>.jsp'
-					</script>
-			<%}else{ //없으면 일반 게시물 목록으로 이동
-			%>
-					<script>
-					location.href = 'board_<%=boardType%>.jsp'
-					</script>
-			<%}
+				<script>
+				location.href = 'board_${empty param.location? param.boardType : param.location}.jsp'
+				</script>
+			<%
 		}else{
 			PrintWriter script = response.getWriter();
 			script.println("<script>");

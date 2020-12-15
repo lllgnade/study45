@@ -14,9 +14,6 @@
 		main.jsp에서 이어지는 게시판 소스들 필요
 		마이페이지 및 스크랩 페이지 소스 필요
 	*/
-	String location = request.getParameter("location");
-	if(location==null)
-		location="main";
 	
 %>
 	<%-- 네비게이션  --%>
@@ -30,7 +27,7 @@
  		<div class="login"></div>
  		<div class="login">
    			<div class="jumbotron" style="padding-top: 20px; background-color: #F8E0F1">
-   				<form action="user/login_process.jsp?location=<%=location%>" method="post">
+   				<form action="user/login_process.jsp?location=${empty param.location ? "main" : param.location}" method="post">
     				<h3 style="text-align: center;"> 해당 기능은 로그인이 필요합니다. </h3>
     				<div class="form-group">
      					<input type="text" class="form-control" placeholder="아이디" name="userID" maxlength="20">

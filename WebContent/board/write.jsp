@@ -36,18 +36,9 @@
 	%>	
 			<script>
 			alert('로그인이 필요합니다.')
-			location.href = '../login.jsp?location=board_<%=boardType%>'
+			location.href = '../login.jsp?location=board_${param.boardType}'
 			</script>
 	<%	
-			return;
-		}
-		
-		if(request.getParameter("boardType")==null){
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("alert('잘못된 요청입니다.')");
-			script.println("history.back()");
-			script.println("</script>");
 			return;
 		}
 		

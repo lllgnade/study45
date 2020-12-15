@@ -4,6 +4,8 @@
 <%@ page import="board.BoardVO"%>
 <%@ page import="board.BoardDAO"%>
 <%@ page import="java.util.List"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +36,6 @@ a, a:hover {
 	color: #000000;
 	text-decoration: none;
 }
-
 </style>
 </head>
 <body>
@@ -51,12 +52,12 @@ a, a:hover {
 	if (request.getParameter("pageNum") != null) {
 		pageNum = Integer.parseInt(request.getParameter("pageNum"));
 	}
-	
+
 	boolean ifSearching = false;
 	String object = "";
 	String query = "";
 	//검색 쿼리 받아오기
-	if(request.getParameter("object")!=null && request.getParameter("query")!=null){
+	if (request.getParameter("object") != null && request.getParameter("query") != null) {
 		ifSearching = true;
 		object = request.getParameter("object");
 		query = request.getParameter("query");
@@ -104,7 +105,7 @@ a, a:hover {
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="../myPage.jsp"
 					class="dropdown-toggle" data-toggle="dropdown" role="button"
-					aria-haspopup="true" aria-expanded="false"><%=userID%> <span
+					aria-haspopup="true" aria-expanded="false">${userID} <span
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="../myPage.jsp">마이페이지</a></li>
@@ -139,79 +140,91 @@ a, a:hover {
 			</thead>
 			<tbody>
 				<%
-				//데이터 가져오기
+					/*데이터 가져오기*/
 				BoardDAO boardDAO = new BoardDAO();
 				BoardVO boardFilter = new BoardVO();
 				boardFilter.setBoardType("tip");
 				//검색시
-				if(ifSearching){
-					if("title".equals(object)){
+				if (ifSearching) {
+					if ("title".equals(object)) {
 						boardFilter.setTitle(query);
-					}else if("name".equals(object)){
+					} else if ("name".equals(object)) {
 						boardFilter.setName(query);
-					}else if("contents".equals(object)){
+					} else if ("contents".equals(object)) {
 						boardFilter.setContents(query);
 					}
 				}
-				
 				List<BoardVO> boardlist = boardDAO.searchBoard(boardFilter, pageNum, 10);
-				if(boardlist!=null && boardlist.size()!=0)
-					System.out.println(boardlist.get(0).getTitle());
-				for (BoardVO board : boardlist) {
 				%>
-				<tr>
-					<td scope="col" class="text-center"><a
-						href="view.jsp?boardNo=<%=board.getBoardNo()%>&pageNum=<%=pageNum%>"><%=board.getTitle()%></a></td>
-					<td scope="col" class="text-center"><%=board.getName()%></td>
-					<td scope="col" class="text-center"><%=board.getRegDate()%></td>
-					<td scope="col" class="text-center"><%=board.getReadCount()%></td>
-				</tr>
-				<%
-					}
-				%>
+
+				<c:choose>
+					<c:when test="<%=boardlist == null || boardlist.size()==0%>">
+						<tr>
+							<td colspan=4><b>등록된 글이 없습니다.</b></td>
+						</tr>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="board" items="<%=boardlist%>">
+
+							<tr>
+								<td scope="col" class="text-center"><a
+									href="view.jsp?boardNo=${board.boardNo}&pageNum=<%=pageNum%>">
+										${board.title}</a></td>
+								<td scope="col" class="text-center">${board.name}</td>
+								<td scope="col" class="text-center">${board.regDate}</td>
+								<td scope="col" class="text-center">${board.readCount}</td>
+							</tr>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</tbody>
 		</table>
-		
+
 		<center>
-		<%
-			if (pageNum != 1) {
+			<%
+				if (pageNum != 1) {
 				//검색시
-				if(ifSearching){
-		%>
-		<a href="board_tip.jsp?pageNum=<%=pageNum - 1%>&object=<%=object%>&query=<%=query%>"
-			class="btn btn-success btn-arrow-left">이전</a>
-		<% }else{
+				if (ifSearching) {
+			%>
+			<a
+				href="board_tip.jsp?pageNum=<%=pageNum - 1%>&object=${param.object}&query=${param.query}"
+				class="btn btn-success btn-arrow-left">이전</a>
+			<%
+				} else {
 			%>
 			<a href="board_tip.jsp?pageNum=<%=pageNum - 1%>"
 				class="btn btn-success btn-arrow-left">이전</a>
-		<%	}
-		}
-		if (boardDAO.searchBoard(boardFilter, pageNum + 1, 10).size() != 0) {
-			if(ifSearching){
-		%>
-		<a href="board_tip.jsp?pageNum=<%=pageNum + 1%>&object=<%=object%>&query=<%=query%>"
-			class="btn btn-success btn-arrow-left">다음</a>
-		<% }else{
+			<%
+				}
+			}
+			if (boardDAO.searchBoard(boardFilter, pageNum + 1, 10).size() != 0) {
+				if (ifSearching) {
+			%>
+			<a
+				href="board_tip.jsp?pageNum=<%=pageNum + 1%>&object=${param.object}&query=${param.query}"
+				class="btn btn-success btn-arrow-left">다음</a>
+			<%
+				} else {
 			%>
 			<a href="board_tip.jsp?pageNum=<%=pageNum + 1%>"
 				class="btn btn-success btn-arrow-left">다음</a>
-		<%	}
-		}
-		%>
+			<%
+				}
+			}
+			%>
 		</center>
 		<a href="write.jsp?boardType=tip" class="btn btn-primary pull-left">글쓰기</a>
-		
-		<form
-		class="form-inline pull-right" method="post" action="board_tip.jsp">
-		<select class="form-control form-control-sm " name="object">
-			<option value="title">제목</option>
-			<option value="contents">내용</option>
-			<option value="name">작성자</option>
-		</select>
-		<input class="form-control form-control-sm mr-3 w-75" type="text"
-			placeholder="검색어를 입력하세요." aria-label="Search" name="query">
-		<button type="submit" class="btn">검색</button>
-	</form>
+
+		<form class="form-inline pull-right" method="post"
+			action="board_tip.jsp">
+			<select class="form-control form-control-sm " name="object">
+				<option value="title">제목</option>
+				<option value="contents">내용</option>
+				<option value="name">작성자</option>
+			</select> <input class="form-control form-control-sm mr-3 w-75" type="text"
+				placeholder="검색어를 입력하세요." aria-label="Search" name="query">
+			<button type="submit" class="btn">검색</button>
+		</form>
 	</div>
 
 

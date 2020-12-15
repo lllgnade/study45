@@ -30,8 +30,7 @@
 		return;
 	}	
 	//게시판명 받아오기
-	String boardType = request.getParameter("boardType");
-	if (boardType == null) {
+	if (request.getParameter("boardType")==null) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('잘못된 요청입니다.')");
@@ -48,7 +47,7 @@
 	%>	
 		<script>
 		alert('로그인 해야 합니다.')
-		location.href = '../login.jsp?location=board_<%=boardType%>'
+		location.href = '../login.jsp?location=board_${param.boardType}'
 		</script>
 	<%
 		return;
@@ -104,7 +103,7 @@
 			if("ok".equals(answer)){ //게시물 수정 성공시 해당 게시물로 이동
 				%>
 						<script>
-						location.href = 'view.jsp?boardNo=<%=boardNo%>&pageNum=1'
+						location.href = 'view.jsp?boardNo=${param.boardNo%}&pageNum=1'
 						</script>
 				<%
 			}else{

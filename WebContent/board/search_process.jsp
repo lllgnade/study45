@@ -30,9 +30,8 @@
 		script.println("</script>");
 		return;
 	}	
-	//게시판명 받아오기
-	String boardType = request.getParameter("boardType");
-	if (boardType == null) {
+	//게시판명 유효 체크
+	if (request.getParameter("boardType") == null) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('잘못된 요청입니다.')");
@@ -50,10 +49,6 @@
 			script.println("</script>");
 			return;
 		}
-	//특정 요청 지점이 있으면 받아오기
-	String location = "";
-	if(request.getParameter("location")!=null)
-		location = request.getParameter("location");
 	
 	//사용자 ID 받아오기
 	String userID = null;
@@ -64,7 +59,7 @@
 	%>	
 		<script>
 		alert('로그인 해야 합니다.')
-		location.href = '../login.jsp?location=board_<%=boardType%>'
+		location.href = '../login.jsp?location=board_${param.boardType}'
 		</script>
 	<%
 		return;
@@ -106,7 +101,7 @@
 			%>
 					<script>
 					alert('스크랩을 해제했습니다.')
-					location.href = 'view.jsp?boardNo=<%=boardNo%>'
+					location.href = 'view.jsp?boardNo=${param.boardNo}'
 					</script>
 			<%
 			return;
@@ -137,7 +132,7 @@
 			%>
 				<script>
 				alert('스크랩했습니다.')
-				location.href = 'view.jsp?boardNo=<%=boardNo%>'
+				location.href = 'view.jsp?boardNo=${param.boardNo}'
 				</script>
 			<%
 			return;

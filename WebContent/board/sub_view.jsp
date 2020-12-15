@@ -78,7 +78,7 @@
 		
 		//요청시의 게시판 페이지번호 받아오기
 		int pageNum=1; 
-		if(request.getParameter("pageNum")!=null){
+		if(request.getParameter("pageNum")!=null&& !request.getParameter("pageNum").isEmpty()){
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		}
 		

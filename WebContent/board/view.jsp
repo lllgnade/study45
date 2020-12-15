@@ -68,7 +68,7 @@
 		
 		//요청시의 게시판 페이지번호 받아오기
 		int pageNum=1; 
-		if(request.getParameter("pageNum")!=null){
+		if(request.getParameter("pageNum")!=null && !request.getParameter("pageNum").isEmpty()){
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		}
 		
@@ -153,10 +153,15 @@
 
 	<a href="board_<%=boardType%>.jsp?pageNum=<%=pageNum%>" class="btn btn-primary">목록</a>
 
-	<c:if test="${userID!=null && userID.equals(boardInfo.getUserID())}">
+	<%
+		//c:if가 작동하지 않아서 일단 뺐습니다.
+		if(userID!=null && userID.equals(boardInfo.getUserID())){
+	%>
 		<a href="update.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">수정</a>
 		<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="delete_process.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">삭제</a>
-	</c:if>
+	<%
+		}
+	%>
 	<%
 		//스크랩 여부에 따라 버튼을 다르게 함
 		if(boardInfo.getIf_scraped().contains("not")){

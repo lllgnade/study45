@@ -30,9 +30,8 @@
 		script.println("</script>");
 		return;
 	}	
-	//게시판명 받아오기
-	String boardType = request.getParameter("boardType");
-	if (boardType == null) {
+	//게시판명 유효 체크
+	if (request.getParameter("boardType") == null) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('잘못된 요청입니다.')");
@@ -64,7 +63,7 @@
 	%>	
 		<script>
 		alert('로그인 해야 합니다.')
-		location.href = '../login.jsp?location=board_<%=boardType%>'
+		location.href = '../login.jsp?location=board_${param.boardType}'
 		</script>
 	<%
 		return;

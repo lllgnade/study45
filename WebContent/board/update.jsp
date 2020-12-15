@@ -42,7 +42,7 @@
 	%>
 		<script>
 		alert('로그인 해야 합니다.')
-		location.href = '../login.jsp?location=view<%=boardNo%>'
+		location.href = '../login.jsp?location=view${param.boardNo}'
 		</script>
 	<%
 		return;
@@ -116,7 +116,7 @@
 	</nav>
 	<div class="container">
 	<div class="row">
-	<form method="post" action="update_process.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>">
+	<form method="post" action="update_process.jsp?boardNo=${param.boardNo}&boardType=<%=boardType%>">
 	<table class="table table-striped" style="text-align : center; border:1px solid #dddddd">
 		<thead>
 		<tr>

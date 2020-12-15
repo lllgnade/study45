@@ -3,6 +3,7 @@
 <%@ page import="user.UserVO"%>
 <%@ page import="user.UserDAO"%>
 <%@ page import="java.io.PrintWriter"%>
+
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
@@ -64,7 +65,7 @@
 		<%
 				if(location.contains("board")){
 		%>
-		location.href = '../board/<%=location%>.jsp'
+		location.href = '../board/${param.location}.jsp'
 		<%
 				}else if(location.contains("view")){
 		%>

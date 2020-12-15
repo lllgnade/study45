@@ -4,6 +4,8 @@
 <%@ page import="board.BoardVO"%>
 <%@ page import="board.BoardDAO"%>
 <%@ page import="java.util.List"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -90,7 +92,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="../myPage.jsp" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false"><%=userID%> <span class="caret"></span></a>
+					aria-expanded="false">${userID} <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="../myPage.jsp">마이페이지</a></li>
 						<li><a href="../user/logout_process.jsp">로그아웃</a></li>
@@ -136,19 +138,31 @@
 				}
 			}
 			List<BoardVO> mylist = boardDAO.searchBoard(boardFilter, pageNum, 10);
-			for(BoardVO board: mylist){
-		%>
-		<tr>
-			<td scope="col" class="text-center"><%= board.getBoardType() %></td>
-			<td scope="col" class="text-center"><a href="sub_view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=<%=pageNum%>&location=my"><%= board.getTitle() %></a></td>
-			<td scope="col" class="text-center"><%= board.getName() %></td>
-			<td scope="col" class="text-center"><%= board.getRegDate()%></td>
-			<td scope="col" class="text-center"><%= board.getReadCount() %></td>
-		</tr>
-		<%
-			}
-		%>
-	</tbody>
+			
+			%>
+			
+			<c:choose>
+			<c:when test="<%=mylist == null || mylist.size()==0%>">
+				<tr>
+					<td colspan=5><b>내가 쓴 글이 없습니다.</b></td>
+				</tr>
+			</c:when>
+			<c:otherwise>
+				<c:forEach var="board" items="<%=mylist%>">
+
+					<tr>
+						<td scope="col" class="text-center">${board.boardType}</td>
+						<td scope="col" class="text-center"><a
+							href="sub_view.jsp?boardNo=${board.boardNo}&pageNum=<%=pageNum%>&location=my">
+								${board.title}</a></td>
+						<td scope="col" class="text-center">${board.name}</td>
+						<td scope="col" class="text-center">${board.regDate}</td>
+						<td scope="col" class="text-center">${board.readCount}</td>
+					</tr>
+				</c:forEach>
+			</c:otherwise>
+		</c:choose>
+			
 	</table>
 	
 	<center>
@@ -157,7 +171,7 @@
 				//검색시
 				if(ifSearching){
 		%>
-		<a href="board_my.jsp?pageNum=<%=pageNum - 1%>&object=<%=object%>&query=<%=query%>"
+		<a href="board_my.jsp?pageNum=<%=pageNum - 1%>&object=${param.object}&query=${param.query}"
 			class="btn btn-success btn-arrow-left">이전</a>
 		<% }else{
 			%>
@@ -168,7 +182,7 @@
 		if (boardDAO.showBoard(boardFilter,pageNum+1, 10).size()!=0) {
 			if(ifSearching){
 		%>
-		<a href="board_my.jsp?pageNum=<%=pageNum + 1%>&object=<%=object%>&query=<%=query%>"
+		<a href="board_my.jsp?pageNum=<%=pageNum + 1%>&object=${param.object}&query=${param.query}"
 			class="btn btn-success btn-arrow-left">다음</a>
 		<% }else{
 			%>
