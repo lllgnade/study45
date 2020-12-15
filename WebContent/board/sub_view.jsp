@@ -132,7 +132,7 @@
 						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="../myPage.jsp">마이페이지</a></li>
-						<li><a href="/study45/user/logout_process.jsp">로그아웃</a></li>
+						<li><a href="/study45/user/logout">로그아웃</a></li>
 					</ul></li>
 			</ul>
 		</div>
@@ -173,7 +173,7 @@
 			<a href="board_${location}.jsp?pageNum=${pageNum}"
 				class="btn btn-primary">목록</a>
 
-			<c:if test="userID!=null && userID.equals(boardInfo.getUserID())">
+			<c:if test="<%=userID!=null && userID.equals(boardInfo.getUserID())%>">
 				<a href="update.jsp?boardNo=${boardNo}&boardType=${boardType}"
 					class="btn btn-primary">수정</a>
 				<a onclick="return confirm('정말로 삭제하시겠습니까?')"

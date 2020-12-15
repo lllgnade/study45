@@ -66,6 +66,8 @@ a, a:hover {
 
 
 	<%-- 네비게이션  --%>
+	<c:set var="pageNum" value="<%=pageNum%>" />
+	<c:set var="ifSearching" value="<%=ifSearching%>" />
 	<nav class="navbar navbar-default" style="background-color: #CEF6F5">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -109,7 +111,7 @@ a, a:hover {
 								class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="../myPage.jsp">마이페이지</a></li>
-								<li><a href="../user/logout_process.jsp">로그아웃</a></li>
+								<li><a href="../user/logout">로그아웃</a></li>
 							</ul></li>
 					</ul>
 				</c:otherwise>
@@ -167,7 +169,7 @@ a, a:hover {
 
 							<tr>
 								<td scope="col" class="text-center"><a
-									href="view.jsp?boardNo=${board.boardNo}&pageNum=<%=pageNum%>">
+									href="view.jsp?boardNo=${board.boardNo}&pageNum=${pageNum}">
 										${board.title}</a></td>
 								<td scope="col" class="text-center">${board.name}</td>
 								<td scope="col" class="text-center">${board.regDate}</td>
@@ -181,19 +183,19 @@ a, a:hover {
 
 		<center>
 			<%-- 이전 페이지가 있을 경우 버튼 활성화 --%>
-			<c:if test="<%=pageNum != 1%>">
+			<c:if test="${pageNum!=1}">
 
 				<c:choose>
 					<%-- 검색시 --%>
-					<c:when test="<%=ifSearching%>">
+					<c:when test="${ifSearching}">
 						<a
-							href="board_free.jsp?pageNum=<%=pageNum - 1%>&object=${param.object}&query=${param.query}"
+							href="board_free.jsp?pageNum=${pageNum-1}&object=${param.object}&query=${param.query}"
 							class="btn btn-success btn-arrow-left">이전</a>
 					</c:when>
 					<%-- 검색이 아닐 때 --%>
 					<c:otherwise>
 
-						<a href="board_free.jsp?pageNum=<%=pageNum - 1%>"
+						<a href="board_free.jsp?pageNum=${pageNum-1}"
 							class="btn btn-success btn-arrow-left">이전</a>
 					</c:otherwise>
 				</c:choose>
@@ -206,16 +208,16 @@ a, a:hover {
 
 				<c:choose>
 					<%-- 검색시 --%>
-					<c:when test="<%=ifSearching%>">
+					<c:when test="${ifSearching}">
 
 						<a
-							href="board_free.jsp?pageNum=<%=pageNum + 1%>&object=${param.object}&query=${param.query}"
+							href="board_free.jsp?pageNum=${pageNum+1}&object=${param.object}&query=${param.query}"
 							class="btn btn-success btn-arrow-left">다음</a>
 					</c:when>
 					<%-- 검색이 아닐 때 --%>
 					<c:otherwise>
 
-						<a href="board_free.jsp?pageNum=<%=pageNum + 1%>"
+						<a href="board_free.jsp?pageNum=${pageNum+1}"
 							class="btn btn-success btn-arrow-left">다음</a>
 					</c:otherwise>
 				</c:choose>

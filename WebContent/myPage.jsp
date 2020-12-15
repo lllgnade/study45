@@ -88,7 +88,7 @@ a, a:hover {
 							data-toggle="dropdown" role="button" aria-haspopup="true"
 							aria-expanded="false">${userID} <span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="user/logout_process.jsp">로그아웃</a></li>
+								<li><a href="user/logout">로그아웃</a></li>
 							</ul></li>
 					</ul>
 				</c:otherwise>

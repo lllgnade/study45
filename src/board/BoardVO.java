@@ -1,7 +1,11 @@
 package board;
 
-public class BoardVO {
+public class BoardVO implements java.io.Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int boardNo; // PRIMARY KEY. AUTO INCREMENT
 	private String boardType; // 게시판 종류. not null
 	private String userID; //작성자 ID. FOREIGN KEY(USER). not null
