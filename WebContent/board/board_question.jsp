@@ -80,7 +80,7 @@
 					<ul class="dropdown-menu">
 					<%-- 바꿀 부분  --%>
 						<li><a href="../login.jsp?location=board_question">로그인</a></li>
-						<li><a href="../user/sign_up.jsp">회원가입</a></li>
+						<li><a href="../join.jsp">회원가입</a></li>
 					</ul>
 				</li>
 			</ul>
