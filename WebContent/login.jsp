@@ -9,13 +9,6 @@
 <title>study for 4.5</title>
 </head>
 <body>
-<%
-	/*
-		main.jsp에서 이어지는 게시판 소스들 필요
-		마이페이지 및 스크랩 페이지 소스 필요
-	*/
-	
-%>
 	<%-- 네비게이션  --%>
 	<nav class="navbar navbar-default" style="background-color: #CEF6F5">
  		<div class="navbar-header">   			

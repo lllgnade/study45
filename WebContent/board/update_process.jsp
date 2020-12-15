@@ -103,7 +103,7 @@
 			if("ok".equals(answer)){ //게시물 수정 성공시 해당 게시물로 이동
 				%>
 						<script>
-						location.href = 'view.jsp?boardNo=${param.boardNo%}&pageNum=1'
+						location.href = 'view.jsp?boardNo=${param.boardNo}&pageNum=1'
 						</script>
 				<%
 			}else{

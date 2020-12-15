@@ -9,7 +9,6 @@
 <title>study for 4.5</title>
 </head>
 <body>
-
 	<%-- 네비게이션  --%>
 	<nav class="navbar navbar-default" style="background-color: #CEF6F5">
  		<div class="navbar-header">   			

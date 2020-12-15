@@ -4,7 +4,6 @@
 <%@ page import="board.BoardVO"%>
 <%@ page import="board.BoardDAO"%>
 <%@ page import="java.util.List"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -76,45 +75,45 @@ a, a:hover {
 					class="icon-bar"></span>
 			</button>
 			<a class="navbar-brand" href="../main.jsp">Study for 4.5</a> <a
-				class="navbar-brand" href="board_free.jsp"
-				style="font-size: 1.0em">자유게시판</a> <a
-				class="navbar-brand" href="board_tip.jsp" style="font-size: 1.0em; background-color: #BEE6E5;">팁
-				공유 게시판</a> <a class="navbar-brand" href="board_question.jsp"
+				class="navbar-brand" href="board_free.jsp" style="font-size: 1.0em">자유게시판</a>
+			<a class="navbar-brand" href="board_tip.jsp"
+				style="font-size: 1.0em; background-color: #BEE6E5;">팁 공유 게시판</a> <a
+				class="navbar-brand" href="board_question.jsp"
 				style="font-size: 1.0em">질문게시판</a>
 		</div>
 		<%-- 우측 상단 메뉴 --%>
 		<div class="collapse navbar-collapse"
 			id="#bs-example-navbar-collapse-1">
-			<%
-				// 로그인 안된경우
-			if (userID == null) {
-			%>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="#" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">접속하기<span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="../login.jsp?location=board_tip">로그인</a></li>
-						<li><a href="../join.jsp">회원가입</a></li>
-					</ul></li>
-			</ul>
-			<%
-				// 로그인 상태인 경우
-			} else {
-			%>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="../myPage.jsp"
-					class="dropdown-toggle" data-toggle="dropdown" role="button"
-					aria-haspopup="true" aria-expanded="false">${userID} <span
-						class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="../myPage.jsp">마이페이지</a></li>
-						<li><a href="../user/logout_process.jsp">로그아웃</a></li>
-					</ul></li>
-			</ul>
-			<%
-				}
-			%>
+
+
+			<c:choose>
+				<%-- 로그인 안 된 경우 --%>
+				<c:when test="<%=userID == null%>">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-haspopup="true"
+							aria-expanded="false">접속하기<span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="../login.jsp?location=board_tip">로그인</a></li>
+								<li><a href="../join.jsp">회원가입</a></li>
+							</ul></li>
+					</ul>
+				</c:when>
+				<%-- 로그인 상태인 경우 --%>
+				<c:otherwise>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown"><a href="../myPage.jsp"
+							class="dropdown-toggle" data-toggle="dropdown" role="button"
+							aria-haspopup="true" aria-expanded="false">${userID} <span
+								class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="../myPage.jsp">마이페이지</a></li>
+								<li><a href="../user/logout_process.jsp">로그아웃</a></li>
+							</ul></li>
+					</ul>
+				</c:otherwise>
+			</c:choose>
+
 		</div>
 	</nav>
 	<div class="container">
@@ -158,7 +157,7 @@ a, a:hover {
 				%>
 
 				<c:choose>
-					<c:when test="<%=boardlist == null || boardlist.size()==0%>">
+					<c:when test="<%=boardlist == null || boardlist.size() == 0%>">
 						<tr>
 							<td colspan=4><b>등록된 글이 없습니다.</b></td>
 						</tr>
@@ -181,37 +180,47 @@ a, a:hover {
 		</table>
 
 		<center>
-			<%
-				if (pageNum != 1) {
-				//검색시
-				if (ifSearching) {
-			%>
-			<a
-				href="board_tip.jsp?pageNum=<%=pageNum - 1%>&object=${param.object}&query=${param.query}"
-				class="btn btn-success btn-arrow-left">이전</a>
-			<%
-				} else {
-			%>
-			<a href="board_tip.jsp?pageNum=<%=pageNum - 1%>"
-				class="btn btn-success btn-arrow-left">이전</a>
-			<%
-				}
-			}
-			if (boardDAO.searchBoard(boardFilter, pageNum + 1, 10).size() != 0) {
-				if (ifSearching) {
-			%>
-			<a
-				href="board_tip.jsp?pageNum=<%=pageNum + 1%>&object=${param.object}&query=${param.query}"
-				class="btn btn-success btn-arrow-left">다음</a>
-			<%
-				} else {
-			%>
-			<a href="board_tip.jsp?pageNum=<%=pageNum + 1%>"
-				class="btn btn-success btn-arrow-left">다음</a>
-			<%
-				}
-			}
-			%>
+			<%-- 이전 페이지가 있을 경우 버튼 활성화 --%>
+			<c:if test="<%=pageNum != 1%>">
+
+				<c:choose>
+					<%-- 검색시 --%>
+					<c:when test="<%=ifSearching%>">
+						<a
+							href="board_tip.jsp?pageNum=<%=pageNum - 1%>&object=${param.object}&query=${param.query}"
+							class="btn btn-success btn-arrow-left">이전</a>
+					</c:when>
+					<%-- 검색이 아닐 때 --%>
+					<c:otherwise>
+
+						<a href="board_tip.jsp?pageNum=<%=pageNum - 1%>"
+							class="btn btn-success btn-arrow-left">이전</a>
+					</c:otherwise>
+				</c:choose>
+
+			</c:if>
+
+			<%-- 다음 페이지가 있을 경우 버튼 활성화 --%>
+			<c:if
+				test="<%=boardDAO.searchBoard(boardFilter, pageNum + 1, 10).size() != 0%>">
+
+				<c:choose>
+					<%-- 검색시 --%>
+					<c:when test="<%=ifSearching%>">
+
+						<a
+							href="board_tip.jsp?pageNum=<%=pageNum + 1%>&object=${param.object}&query=${param.query}"
+							class="btn btn-success btn-arrow-left">다음</a>
+					</c:when>
+					<%-- 검색이 아닐 때 --%>
+					<c:otherwise>
+
+						<a href="board_tip.jsp?pageNum=<%=pageNum + 1%>"
+							class="btn btn-success btn-arrow-left">다음</a>
+					</c:otherwise>
+				</c:choose>
+
+			</c:if>
 		</center>
 		<a href="write.jsp?boardType=tip" class="btn btn-primary pull-left">글쓰기</a>
 
