@@ -43,7 +43,7 @@
 		boardFilter.setUserID(userID);
 		List<BoardVO> mylist = boardDAO.searchBoard(boardFilter, 1, 3);
 		//내가 스크랩한 글 최신순 3개 가져오기
-		List<BoardVO> myScraplist = boardDAO.myScrapBoard(userID, 1, 3);
+		List<BoardVO> myScraplist = boardDAO.myScrapBoard(new BoardVO(),userID, 1, 3);
 		
 	%>
 	<%-- 네비게이션  --%>

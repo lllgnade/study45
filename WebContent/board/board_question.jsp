@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="board.BoardVO"%>
 <%@ page import="board.BoardDAO"%>
@@ -14,43 +14,57 @@
 <link rel="stylesheet" href="../css/bootstrap.css">
 <title>study for 4.5</title>
 <style type="text/css">
-	table {
-    width: 100%;
-    border-top: 1px solid #444444;
-    border-collapse: collapse;
-  }
-  th, td {
-    border-bottom: 1px solid #444444;
-    padding: 10px;
-    text-align: center;
-  }
-  td {
-    background-color: #EFFBF8;
-  }
-	a, a:hover{
-	color : #000000;
-	text-decoration : none;
-	}
+table {
+	width: 100%;
+	border-top: 1px solid #444444;
+	border-collapse: collapse;
+}
+
+th, td {
+	border-bottom: 1px solid #444444;
+	padding: 10px;
+	text-align: center;
+}
+
+td {
+	background-color: #EFFBF8;
+}
+
+a, a:hover {
+	color: #000000;
+	text-decoration: none;
+}
+
 </style>
 </head>
 <body>
 	<%
-		
 		// 로그인을 한 사람이면 userID에 아이디를 저장, 아닐 경우 null값
-		String userID = null;
-		if(session.getAttribute("userID") != null){
-			userID=(String) session.getAttribute("userID");
-		}
-		
-		int pageNum=1;
-		if(request.getParameter("pageNum")!=null){
-			pageNum = Integer.parseInt(request.getParameter("pageNum"));
-		}
-		
+
+	request.setCharacterEncoding("utf8");
+	String userID = null;
+	if (session.getAttribute("userID") != null) {
+		userID = (String) session.getAttribute("userID");
+	}
+
+	int pageNum = 1;
+	if (request.getParameter("pageNum") != null) {
+		pageNum = Integer.parseInt(request.getParameter("pageNum"));
+	}
+	
+	boolean ifSearching = false;
+	String object = "";
+	String query = "";
+	//검색 쿼리 받아오기
+	if(request.getParameter("object")!=null && request.getParameter("query")!=null){
+		ifSearching = true;
+		object = request.getParameter("object");
+		query = request.getParameter("query");
+	}
 	%>
 
-	
-	
+
+
 	<%-- 네비게이션  --%>
 	<nav class="navbar navbar-default" style="background-color: #CEF6F5">
 		<div class="navbar-header">
@@ -60,43 +74,42 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="../main.jsp">Study for 4.5</a>
-			<%-- 바꿀 부분  --%>
-			<a class="navbar-brand" href="board_free.jsp" style="font-size:1.0em;">자유게시판</a>
-			<a class="navbar-brand" href="board_tip.jsp" style="font-size:1.0em;">팁 공유 게시판</a>
-			<a class="navbar-brand" href="board_question.jsp" style="font-size:1.0em;  background-color: #BEE6E5;">질문게시판</a>
+			<a class="navbar-brand" href="../main.jsp">Study for 4.5</a> <a
+				class="navbar-brand" href="board_free.jsp"
+				style="font-size: 1.0em">자유게시판</a> <a
+				class="navbar-brand" href="board_tip.jsp" style="font-size: 1.0em">팁
+				공유 게시판</a> <a class="navbar-brand" href="board_question.jsp"
+				style="font-size: 1.0em; background-color: #BEE6E5;">질문게시판</a>
 		</div>
 		<%-- 우측 상단 메뉴 --%>
 		<div class="collapse navbar-collapse"
 			id="#bs-example-navbar-collapse-1">
 			<%
 				// 로그인 안된경우
-				if (userID == null) {
+			if (userID == null) {
 			%>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">접속하기<span class="caret"></span></a>
 					<ul class="dropdown-menu">
-					<%-- 바꿀 부분  --%>
 						<li><a href="../login.jsp?location=board_question">로그인</a></li>
 						<li><a href="../join.jsp">회원가입</a></li>
-					</ul>
-				</li>
+					</ul></li>
 			</ul>
 			<%
 				// 로그인 상태인 경우
-				} else {
+			} else {
 			%>
 			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown"><a href="../myPage.jsp" class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false"><%=userID%> <span class="caret"></span></a>
+				<li class="dropdown"><a href="../myPage.jsp"
+					class="dropdown-toggle" data-toggle="dropdown" role="button"
+					aria-haspopup="true" aria-expanded="false"><%=userID%> <span
+						class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li><a href="../myPage.jsp">마이페이지</a></li>
 						<li><a href="../user/logout_process.jsp">로그아웃</a></li>
-					</ul>
-				</li>
+					</ul></li>
 			</ul>
 			<%
 				}
@@ -104,59 +117,104 @@
 		</div>
 	</nav>
 	<div class="container">
-	
-	<table class="table table-hover" style="width: 100%">
-	
-		<colgroup>
-       <col span="1" style="width: 58%;">
-       <col span="1" style="width: 20%;">
-       <col span="1" style="width: 15%;">
-       <col span="1" style="width: 7%;">
-    </colgroup>
-		<thead>
-		<tr>
-			<th scope="col" class="text-center" style="background-color: #BCF5A9">제목</th>
-			<th scope="col" class="text-center" style="background-color: #BCF5A9">글쓴이</th>
-			<th scope="col" class="text-center" style="background-color: #BCF5A9">작성일</th>
-			<th scope="col" class="text-center" style="background-color: #BCF5A9">조회수</th>
-		</tr>
-	</thead>
-	<tbody>
-	<%-- 바꿀 부분  --%>
+
+		<table class="table table-hover" style="width: 100%">
+			<colgroup>
+				<col span="1" style="width: 58%;">
+				<col span="1" style="width: 20%;">
+				<col span="1" style="width: 15%;">
+				<col span="1" style="width: 7%;">
+			</colgroup>
+			<thead>
+				<tr>
+					<th scope="col" class="text-center"
+						style="background-color: #BCF5A9">제목</th>
+					<th scope="col" class="text-center"
+						style="background-color: #BCF5A9">글쓴이</th>
+					<th scope="col" class="text-center"
+						style="background-color: #BCF5A9">작성일</th>
+					<th scope="col" class="text-center"
+						style="background-color: #BCF5A9">조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%
+				//데이터 가져오기
+				BoardDAO boardDAO = new BoardDAO();
+				BoardVO boardFilter = new BoardVO();
+				boardFilter.setBoardType("question");
+				//검색시
+				if(ifSearching){
+					if("title".equals(object)){
+						boardFilter.setTitle(query);
+					}else if("name".equals(object)){
+						boardFilter.setName(query);
+					}else if("contents".equals(object)){
+						boardFilter.setContents(query);
+					}
+				}
+				
+				List<BoardVO> boardlist = boardDAO.searchBoard(boardFilter, pageNum, 10);
+				if(boardlist!=null && boardlist.size()!=0)
+					System.out.println(boardlist.get(0).getTitle());
+				for (BoardVO board : boardlist) {
+				%>
+				<tr>
+					<td scope="col" class="text-center"><a
+						href="view.jsp?boardNo=<%=board.getBoardNo()%>&pageNum=<%=pageNum%>"><%=board.getTitle()%></a></td>
+					<td scope="col" class="text-center"><%=board.getName()%></td>
+					<td scope="col" class="text-center"><%=board.getRegDate()%></td>
+					<td scope="col" class="text-center"><%=board.getReadCount()%></td>
+				</tr>
+				<%
+					}
+				%>
+			</tbody>
+		</table>
+		
+		<center>
 		<%
-			BoardDAO boardDAO= new BoardDAO();
-			BoardVO boardFilter= new BoardVO();
-			boardFilter.setBoardType("question");
-			List<BoardVO> boardlist = boardDAO.searchBoard(boardFilter,pageNum, 10);
-			for(BoardVO board: boardlist){
+			if (pageNum != 1) {
+				//검색시
+				if(ifSearching){
 		%>
-		<tr>
-			<td scope="col" class="text-center"><a href="view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=<%=pageNum%>"><%= board.getTitle() %></a></td>
-			<td scope="col" class="text-center"><%= board.getName() %></td>
-			<td scope="col" class="text-center"><%= board.getRegDate()%></td>
-			<td scope="col" class="text-center"><%= board.getReadCount() %></td>
-		</tr>
-		<%
-			}
+		<a href="board_question.jsp?pageNum=<%=pageNum - 1%>&object=<%=object%>&query=<%=query%>"
+			class="btn btn-success btn-arrow-left">이전</a>
+		<% }else{
+			%>
+			<a href="board_question.jsp?pageNum=<%=pageNum - 1%>"
+				class="btn btn-success btn-arrow-left">이전</a>
+		<%	}
+		}
+		if (boardDAO.searchBoard(boardFilter, pageNum + 1, 10).size() != 0) {
+			if(ifSearching){
 		%>
-	</tbody>
-	</table>
-	<% 
-	if(pageNum!=1){ 
-	%>
-	<%-- 바꿀 부분  --%>
-		<a href="board_question.jsp?pageNum=<%=pageNum-1 %>" class="btn btn-success btn-arrow-left">이전</a>
-	<% 
-	} if(boardDAO.showBoard(boardFilter,pageNum+1, 10).size()!=0){
-	%>
-		<a href="board_question.jsp?pageNum=<%=pageNum+1 %>" class="btn btn-success btn-arrow-left">다음</a>
-	<% 
-	} 
-	%>
-	<a href="write.jsp?boardType=question" class="btn btn-primary pull-right">글쓰기</a>
+		<a href="board_question.jsp?pageNum=<%=pageNum + 1%>&object=<%=object%>&query=<%=query%>"
+			class="btn btn-success btn-arrow-left">다음</a>
+		<% }else{
+			%>
+			<a href="board_question.jsp?pageNum=<%=pageNum + 1%>"
+				class="btn btn-success btn-arrow-left">다음</a>
+		<%	}
+		}
+		%>
+		</center>
+		<a href="write.jsp?boardType=question" class="btn btn-primary pull-left">글쓰기</a>
+		
+		<form
+		class="form-inline pull-right" method="post" action="board_question.jsp">
+		<select class="form-control form-control-sm " name="object">
+			<option value="title">제목</option>
+			<option value="contents">내용</option>
+			<option value="name">작성자</option>
+		</select>
+		<input class="form-control form-control-sm mr-3 w-75" type="text"
+			placeholder="검색어를 입력하세요." aria-label="Search" name="query">
+		<button type="submit" class="btn">검색</button>
+	</form>
 	</div>
 
-	
+
 	<!-- 애니매이션 담당 JQUERY -->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<!-- 부트스트랩 JS  -->

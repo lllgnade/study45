@@ -4,6 +4,7 @@
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="board.BoardVO"%>
 <%@ page import="board.BoardDAO"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,7 +72,6 @@
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
 		}
 		
-		System.out.println(boardInfo.getIf_scraped());
 	%>
 
 	

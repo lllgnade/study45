@@ -80,7 +80,7 @@
 				<h2>Study for 4.5</h2>
 				<h4>다른 유저와 공부 팁을 공유해서 더 나은 공부 팁을 찾아 가는 곳입니다.</h4>
 				<br>
-				<a class="btn btn-primary btn-pull" href="#" role="button">자세히 알아보기</a>
+				<a class="btn btn-primary btn-pull" href="detail.jsp" role="button">자세히 알아보기</a>
 			</div>
 		</div>
 	</div>

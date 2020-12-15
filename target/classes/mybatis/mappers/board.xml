@@ -56,11 +56,14 @@
 			<if test="userID != '' and userID != null">
 				and U.userID = #{userID}
 			</if>
+			<if test="name != '' and name != null">
+				and U.name = #{name}
+			</if>
 			<if test="title != '' and title != null">
-				and title = #{title}
+				and title like CONCAT('%',#{title},'%')
 			</if>
 			<if test="contents != '' and contents != null">
-				and contents = #{contents}
+				and contents like CONCAT('%',#{contents},'%')
 			</if>
 			<if test="regDate != '' and regDate != null">
 				and regDate = #{regDate}
@@ -104,11 +107,14 @@
 			<if test="userID != '' and userID != null">
 				and U.userID = #{userID}
 			</if>
+			<if test="name != '' and name != null">
+				and U.name = #{name}
+			</if>
 			<if test="title != '' and title != null">
-				and title = #{title}
+				and title like CONCAT('%',#{title},'%')
 			</if>
 			<if test="contents != '' and contents != null">
-				and contents = #{contents}
+				and contents like CONCAT('%',#{contents},'%')
 			</if>
 			<if test="regDate != '' and regDate != null">
 				and regDate = #{regDate}
@@ -149,11 +155,14 @@
 			<if test="userID != '' and userID != null">
 				and U.userID = #{userID}
 			</if>
+			<if test="name != '' and name != null">
+				and U.name = #{name}
+			</if>
 			<if test="title != '' and title != null">
-				and title = #{title}
+				and title like CONCAT('%',#{title},'%')
 			</if>
 			<if test="contents != '' and contents != null">
-				and contents = #{contents}
+				and contents like CONCAT('%',#{contents},'%')
 			</if>
 			<if test="regDate != '' and regDate != null">
 				and regDate = #{regDate}

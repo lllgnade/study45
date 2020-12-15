@@ -35,6 +35,7 @@
 </head>
 <body>
 	<%
+	request.setCharacterEncoding("utf8");
 		
 		//아이디 가져오기
 		String userID = null;
@@ -52,6 +53,16 @@
 		int pageNum=1;
 		if(request.getParameter("pageNum")!=null){
 			pageNum = Integer.parseInt(request.getParameter("pageNum"));
+		}
+		
+		boolean ifSearching = false;
+		String object = "";
+		String query = "";
+		//검색 쿼리 받아오기
+		if(request.getParameter("object")!=null && request.getParameter("query")!=null){
+			ifSearching = true;
+			object = request.getParameter("object");
+			query = request.getParameter("query");
 		}
 		
 	%>
@@ -94,13 +105,15 @@
 	<table class="table table-hover" style="width: 100%">
 	
 		<colgroup>
+		<col span="1" style="width: 7%;">
        <col span="1" style="width: 58%;">
-       <col span="1" style="width: 20%;">
+       <col span="1" style="width: 21%;">
        <col span="1" style="width: 15%;">
        <col span="1" style="width: 7%;">
     </colgroup>
 		<thead>
 		<tr>
+			<th scope="col" class="text-center" style="background-color: #BCF5A9">게시판</th>
 			<th scope="col" class="text-center" style="background-color: #BCF5A9">제목</th>
 			<th scope="col" class="text-center" style="background-color: #BCF5A9">글쓴이</th>
 			<th scope="col" class="text-center" style="background-color: #BCF5A9">작성일</th>
@@ -111,12 +124,26 @@
 		<%
 			BoardDAO boardDAO = new BoardDAO();
 			
-			//내 글 가져오기
-			List<BoardVO> myScraplist = boardDAO.myScrapBoard(userID, pageNum, 10);
+			/*내 글 가져오기*/
+			BoardVO boardFilter = new BoardVO();
+			//검색시
+			if(ifSearching){
+				if("title".equals(object)){
+					boardFilter.setTitle(query);
+				}else if("name".equals(object)){
+					boardFilter.setName(query);
+				}else if("contents".equals(object)){
+					boardFilter.setContents(query);
+				}
+			}
+			List<BoardVO> myScraplist = boardDAO.myScrapBoard(boardFilter, userID, pageNum, 10);
+			
+			
 			
 			for(BoardVO board: myScraplist){
 		%>
 		<tr>
+			<td scope="col" class="text-center"><%= board.getBoardType() %></td>
 			<td scope="col" class="text-center"><a href="sub_view.jsp?boardNo=<%= board.getBoardNo() %>&pageNum=<%=pageNum%>&location=scrap"><%= board.getTitle() %></a></td>
 			<td scope="col" class="text-center"><%= board.getName() %></td>
 			<td scope="col" class="text-center"><%= board.getRegDate()%></td>
@@ -127,17 +154,49 @@
 		%>
 	</tbody>
 	</table>
-	<% 
-	if(pageNum!=1){ 
-	%>
-		<a href="board_scrap.jsp?pageNum=<%=pageNum-1 %>" class="btn btn-success btn-arrow-left">이전</a>
-	<% 
-	} if(boardDAO.myScrapBoard(userID,pageNum+1, 10).size()!=0){
-	%>
-		<a href="board_scrap.jsp?pageNum=<%=pageNum+1 %>" class="btn btn-success btn-arrow-left">다음</a>
-	<% 
-	} 
-	%>
+	
+	
+			
+		<center>
+		<%
+			if (pageNum != 1) {
+				//검색시
+				if(ifSearching){
+		%>
+		<a href="board_scrap.jsp?pageNum=<%=pageNum - 1%>&object=<%=object%>&query=<%=query%>"
+			class="btn btn-success btn-arrow-left">이전</a>
+		<% }else{
+			%>
+			<a href="board_scrap.jsp?pageNum=<%=pageNum - 1%>"
+				class="btn btn-success btn-arrow-left">이전</a>
+		<%	}
+		}
+		if (boardDAO.myScrapBoard(boardFilter,userID,pageNum+1, 10).size() != 0) {
+			if(ifSearching){
+		%>
+		<a href="board_scrap.jsp?pageNum=<%=pageNum + 1%>&object=<%=object%>&query=<%=query%>"
+			class="btn btn-success btn-arrow-left">다음</a>
+		<% }else{
+			%>
+			<a href="board_scrap.jsp?pageNum=<%=pageNum + 1%>"
+				class="btn btn-success btn-arrow-left">다음</a>
+		<%	}
+		}
+		%>
+		</center>
+		
+		<form
+		class="form-inline pull-right" method="post" action="board_scrap.jsp">
+		<select class="form-control form-control-sm " name="object">
+			<option value="title">제목</option>
+			<option value="contents">내용</option>
+			<option value="name">작성자</option>
+		</select>
+		<input class="form-control form-control-sm mr-3 w-75" type="text"
+			placeholder="검색어를 입력하세요." aria-label="Search" name="query">
+		<button type="submit" class="btn">검색</button>
+	</form>
+	
 	</div>
 	
 	

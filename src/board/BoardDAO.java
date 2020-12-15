@@ -55,9 +55,8 @@ public class BoardDAO {
 	
 	
 	//내가 스크랩한 글 목록
-	public List<BoardVO> myScrapBoard(String myID, int pageNum, int pageSize) throws DataAccessException {
+	public List<BoardVO> myScrapBoard(BoardVO boardFilter, String myID, int pageNum, int pageSize) throws DataAccessException {
 		SqlSession sqlSession=MyBatisConnectionFactory.getSqlSession();
-		BoardVO boardFilter = new BoardVO();
 		boardFilter.setMyID(myID);
 		boardFilter.setPageStart((pageNum-1) * pageSize);
 		boardFilter.setPageSize(pageSize);
@@ -87,9 +86,9 @@ public class BoardDAO {
 			int result = sqlSession.update("mapper.board.addReadCount",boardFilter);
 			sqlSession.commit();
 			if(result==0) {
-				System.out.println("조회수가 반영되지 않음.");
+				//System.out.println("조회수가 반영되지 않음.");
 			}else {
-				System.out.println("조회수가 반영됨.");
+				//System.out.println("조회수가 반영됨.");
 			}
 		}
 		sqlSession.close();
