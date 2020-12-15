@@ -153,14 +153,11 @@
 
 	<a href="board_<%=boardType%>.jsp?pageNum=<%=pageNum%>" class="btn btn-primary">목록</a>
 
-	<% 
-		if(userID!=null && userID.equals(boardInfo.getUserID())){
-	%>
-	<a href="update.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">수정</a>
-	<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="delete_process.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">삭제</a>
+	<c:if test="${userID!=null && userID.equals(boardInfo.getUserID())}">
+		<a href="update.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">수정</a>
+		<a onclick="return confirm('정말로 삭제하시겠습니까?')" href="delete_process.jsp?boardNo=<%=boardNo%>&boardType=<%=boardType%>" class="btn btn-primary">삭제</a>
+	</c:if>
 	<%
-		} 
-	
 		//스크랩 여부에 따라 버튼을 다르게 함
 		if(boardInfo.getIf_scraped().contains("not")){
 	%>
