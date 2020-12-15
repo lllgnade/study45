@@ -143,7 +143,7 @@
 	<![CDATA[
 		select U.userID, U.name,
 				B.boardNo, B.boardType, B.title,B.contents,B.regDate,B.readCount,B.boardAvailable
-		FROM `user` U, `board` B
+		FROM `user` U, `board` B, `scrap` S
 	]]>
 		<where>
 			<if test="boardNo != '' and boardNo != null">
@@ -175,12 +175,14 @@
 			</if>
 			and U.userID = B.userID
 			AND B.boardNo in (select boardNo FROM `scrap` where scraperID = #{myID})
+			AND B.boardNo = S.boardNo
+			AND S.scraperID = #{myID}
 		</where>
 		<if test="pageStart != -1 and pageSize != -1">
-			ORDER BY regDate DESC LIMIT #{pageStart}, #{pageSize}
+			ORDER BY S.regDate DESC LIMIT #{pageStart}, #{pageSize}
 		</if>
 		<if test="pageStart == -1 and pageSize == -1">
-			ORDER BY regDate ASC
+			ORDER BY S.regDate ASC
 		</if>
 	</select>	
 	
