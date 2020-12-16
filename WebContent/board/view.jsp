@@ -184,16 +184,15 @@
 			<c:choose>
 				<c:when test="${fn:contains(ifScraped, 'not')}">
 					<a
-						href="scrap_process.jsp?boardNo=${boardNo}&boardType=${boardType}&act=add"
+						href="../board/scrap?boardNo=${boardNo}&boardType=${boardType}&act=add"
 						class="btn btn-warning pull-right">스크랩</a>
 				</c:when>
 				<c:otherwise>
 					<a
-						href="scrap_process.jsp?boardNo=${boardNo}&boardType=${boardType}&act=delete"
+						href="../board/scrap?boardNo=${boardNo}&boardType=${boardType}&act=delete"
 						class="btn btn-secondary pull-right">스크랩 해제</a>
 				</c:otherwise>
 			</c:choose>
-
 		</div>
 	</div>
 

@@ -1,25 +1,29 @@
 package user;
 
-public class UserVO {
-	private String userID; //유저 아이디 (45). NOT NULL PRIMARY
-	private String name; //이름 (50)
-	private String email; //이메일 (70)
-	private String pwd; //비밀번호 (45)
-	private String gender; //성별 (10)
-	private String birth; //생년월일 (DATE)
-	private String emailChecked; //메일 체크 여부 (45)
-	private String pfImageName; //프로필 이미지 파일명 (50)
-	private String pfImagePath; //프로필 이미지 파일 경로 (80)
-	private String pfContents; //프로필 소개글 (300)
-	
-	//임시
-	private int pageStart =-1;
-	private int pageSize =-1;
-	
-	//생성자
+public class UserVO implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String userID; // 유저 아이디 (45). NOT NULL PRIMARY
+	private String name; // 이름 (50)
+	private String email; // 이메일 (70)
+	private String pwd; // 비밀번호 (45)
+	private String gender; // 성별 (10)
+	private String birth; // 생년월일 (DATE)
+	private String emailChecked; // 메일 체크 여부 (45)
+	private String pfImageName; // 프로필 이미지 파일명 (50)
+	private String pfImagePath; // 프로필 이미지 파일 경로 (80)
+	private String pfContents; // 프로필 소개글 (300)
+
+	// 임시
+	private int pageStart = -1;
+	private int pageSize = -1;
+
+	// 생성자
 	public UserVO() {
 	}
-	
+
 	public UserVO(String userID) {
 		this.userID = userID;
 	}
@@ -28,7 +32,7 @@ public class UserVO {
 		this.userID = userID;
 		this.pwd = pwd;
 	}
-	
+
 	public UserVO(String userID, String name, String email) {
 		this.userID = userID;
 		this.name = name;
@@ -42,10 +46,8 @@ public class UserVO {
 		this.email = email;
 	}
 
-	
+	// getter & setter
 
-	//getter & setter
-	
 	public String getUserID() {
 		return userID;
 	}
@@ -141,6 +143,5 @@ public class UserVO {
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
-	
-	
+
 }
