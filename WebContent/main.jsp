@@ -59,7 +59,7 @@
 								class="caret"></span></a>
 							<ul class="dropdown-menu">
 								<li><a href="myPage.jsp">마이페이지</a></li>
-								<li><a href="user/logout_process.jsp">로그아웃</a></li>
+								<li><a href="user/logout">로그아웃</a></li>
 							</ul></li>
 					</ul>
 				</c:otherwise>
